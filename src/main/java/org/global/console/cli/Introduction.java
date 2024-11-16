@@ -40,7 +40,9 @@ public class Introduction {
 
         String ajuda1 = "Comece digitando ";
         String ajuda2 = "help";
-        String ajuda3 = " para ver a lista de comandos disponíveis.";
+        String ajuda3 = " para ver a lista de comandos disponíveis. Ou pressione ";
+        String ajuda4 = "TAB";
+        String ajuda5 = " para completar comandos.";
 
         System.out.print(new AttributedString(
                 ajuda1,
@@ -53,5 +55,14 @@ public class Introduction {
         ConsoleUtils.printWithTypingEffect(new AttributedString(
                 ajuda3,
                 AttributedStyle.DEFAULT.foreground(CommandUtils.ColorExtensions.GRAY)).toAnsi());
+
+        System.out.print(new AttributedString(
+                ajuda4,
+                AttributedStyle.BOLD.foreground(AttributedStyle.BLACK).background(AttributedStyle.GREEN)).toAnsi());
+
+        ConsoleUtils.printWithTypingEffect(new AttributedString(
+                ajuda5,
+                AttributedStyle.DEFAULT.foreground(CommandUtils.ColorExtensions.GRAY)).toAnsi());
+
     }
 }

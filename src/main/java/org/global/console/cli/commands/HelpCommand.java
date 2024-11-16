@@ -4,9 +4,12 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.global.console.utils.CommandUtils;
 import org.global.console.utils.ConsoleUtils;
+import org.jline.builtins.Completers;
+import org.jline.reader.impl.completer.StringsCompleter;
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -93,52 +96,7 @@ public class HelpCommand implements Command {
     }
 
     private void displayDetailedCommandHelp(Command command) {
-
-            StringBuilder sb = new StringBuilder();
-
-            sb.append(new AttributedString(
-                    "Comando: ",
-                    AttributedStyle.DEFAULT.foreground(CommandUtils.ColorExtensions.GRAY)).toAnsi());
-
-            sb.append(new AttributedString(
-                    command.getCommand(),
-                    AttributedStyle.BOLD).toAnsi());
-
-            sb.append(new AttributedString(
-                    "\nDescrição: ",
-                    AttributedStyle.DEFAULT.foreground(CommandUtils.ColorExtensions.GRAY)).toAnsi());
-
-            sb.append(new AttributedString(
-                    command.getDescription(),
-                    AttributedStyle.DEFAULT).toAnsi());
-
-            sb.append(new AttributedString(
-                    "\nSintaxe: ",
-                    AttributedStyle.DEFAULT.foreground(CommandUtils.ColorExtensions.GRAY)).toAnsi());
-
-            sb.append(new AttributedString(
-                    command.getSyntax(),
-                    AttributedStyle.DEFAULT).toAnsi());
-
-            sb.append(new AttributedString(
-                    "\nOpções: ",
-                    AttributedStyle.DEFAULT.foreground(CommandUtils.ColorExtensions.GRAY)).toAnsi());
-
-            sb.append(new AttributedString(
-                    command.getOptions(),
-                    AttributedStyle.DEFAULT).toAnsi());
-
-            sb.append(new AttributedString(
-                    "\nExemplos: ",
-                    AttributedStyle.DEFAULT.foreground(CommandUtils.ColorExtensions.GRAY)).toAnsi());
-
-            for (String example : command.getExamples()) {
-                sb.append(new AttributedString(
-                        "\n  " + example,
-                        AttributedStyle.DEFAULT).toAnsi());
-            }
-
-            ConsoleUtils.printWithTypingEffect(sb.toString());
+        CommandUtils.displayCommandHelp(command, false);
     }
 
     @Override
@@ -158,9 +116,32 @@ public class HelpCommand implements Command {
 
     @Override
     public List<String> getExamples() {
-        return List.of(
-                getCommand(),
-                getCommand() + " sysinfo"
-        );
+
+        Set<Class<? extends Command>> commands = CommandUtils.getAllCommands();
+        commands.remove(HelpCommand.class);
+
+        LinkedList<String> examples = commands.stream()
+                .map(CommandUtils::getCommandName)
+                .map(command -> "help " + command)
+                .collect(Collectors.toCollection(LinkedList::new));
+
+        examples.addFirst("help");
+
+        return examples;
     }
+
+    @Override
+    public Completers.TreeCompleter.Node getCompleter() {
+
+        Set<Class<? extends Command>> commands = CommandUtils.getAllCommands();
+        commands.remove(HelpCommand.class);
+
+        List<Completers.TreeCompleter.Node> nodes = commands.stream()
+                .map(CommandUtils::getCommandName)
+                .map(c -> Completers.TreeCompleter.node(c, ""))
+                .collect(Collectors.toList());
+
+        return new Completers.TreeCompleter.Node(new StringsCompleter(getCommand()), nodes);
+    }
+
 }

@@ -1,14 +1,21 @@
 package org.global.console.model;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
 @Builder
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class Usuario {
-    private Long id;
+    private String login;
     private String nome;
     private String email;
     private String senha;
-    private String permissao;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

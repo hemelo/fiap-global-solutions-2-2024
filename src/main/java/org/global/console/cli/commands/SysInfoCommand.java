@@ -18,36 +18,36 @@ public class SysInfoCommand implements Command {
         printTitle("System Information");
 
         // Display host and OS details
-        printDetail("Host Name", getHostName());
-        printDetail("Operating System", System.getProperty("os.name"));
-        printDetail("OS Version", System.getProperty("os.version"));
-        printDetail("Architecture", System.getProperty("os.arch"));
+        CommandUtils.printDetail("Host Name", getHostName());
+        CommandUtils.printDetail("Operating System", System.getProperty("os.name"));
+        CommandUtils.printDetail("OS Version", System.getProperty("os.version"));
+        CommandUtils.printDetail("Architecture", System.getProperty("os.arch"));
 
         // Java and JVM details
-        printDetail("Java Version", System.getProperty("java.version"));
-        printDetail("Java Vendor", System.getProperty("java.vendor"));
-        printDetail("JVM Version", System.getProperty("java.vm.version"));
-        printDetail("JVM Name", System.getProperty("java.vm.name"));
+        CommandUtils.printDetail("Java Version", System.getProperty("java.version"));
+        CommandUtils.printDetail("Java Vendor", System.getProperty("java.vendor"));
+        CommandUtils.printDetail("JVM Version", System.getProperty("java.vm.version"));
+        CommandUtils.printDetail("JVM Name", System.getProperty("java.vm.name"));
 
         // CPU details
         OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
-        printDetail("Available Processors", String.valueOf(osBean.getAvailableProcessors()));
+        CommandUtils.printDetail("Available Processors", String.valueOf(osBean.getAvailableProcessors()));
 
         // Memory details
         long totalMemory = Runtime.getRuntime().totalMemory() / (1024 * 1024); // in MB
         long freeMemory = Runtime.getRuntime().freeMemory() / (1024 * 1024);   // in MB
         long maxMemory = Runtime.getRuntime().maxMemory() / (1024 * 1024);     // in MB
-        printDetail("Total Memory", totalMemory + " MB");
-        printDetail("Free Memory", freeMemory + " MB");
-        printDetail("Max Memory", maxMemory + " MB");
+        CommandUtils.printDetail("Total Memory", totalMemory + " MB");
+        CommandUtils.printDetail("Free Memory", freeMemory + " MB");
+        CommandUtils.printDetail("Max Memory", maxMemory + " MB");
 
         // System uptime
         long uptime = ManagementFactory.getRuntimeMXBean().getUptime() / 1000; // in seconds
-        printDetail("System Uptime", uptime + " seconds");
+        CommandUtils.printDetail("System Uptime", uptime + " seconds");
 
         // User details
-        printDetail("User Name", System.getProperty("user.name"));
-        printDetail("User Home Dir", System.getProperty("user.home"));
+        CommandUtils.printDetail("User Name", System.getProperty("user.name"));
+        CommandUtils.printDetail("User Home Dir", System.getProperty("user.home"));
 
         // Display current date and time
 
@@ -60,13 +60,6 @@ public class SysInfoCommand implements Command {
     private void printTitle(String title) {
         ConsoleUtils.printWithTypingEffect(new AttributedString("\n=== " + title + " ===",
                 AttributedStyle.DEFAULT.foreground(AttributedStyle.CYAN)).toAnsi());
-    }
-
-    private void printDetail(String label, String value) {
-        ConsoleUtils.printWithTypingEffect(new AttributedString(label + " : ",
-                AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW)).toAnsi() +
-                new AttributedString(value,
-                        AttributedStyle.DEFAULT.foreground(AttributedStyle.GREEN)).toAnsi());
     }
 
     private String getHostName() {

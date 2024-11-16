@@ -1,8 +1,16 @@
 package org.global.console;
 
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.global.console.cli.Introduction;
 import org.global.console.cli.commands.Command;
+import org.global.console.dto.Sessao;
+import org.global.console.exceptions.SistemaException;
+import org.global.console.threads.DataSourceCheckerThread;
+import org.global.console.threads.DataSourceConnectionCheckerThread;
 import org.global.console.utils.CommandUtils;
 import org.global.console.utils.ConsoleUtils;
 import org.jline.reader.LineReader;
@@ -12,24 +20,32 @@ import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.widget.AutosuggestionWidgets;
 
+import java.io.Console;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
+@Slf4j
 public class Main {
-
+    private static Sessao sessao;
     private static Terminal terminal;
     private static LineReader reader;
+
     private static Map<String, Class<? extends Command>> commandMap;
 
     private static void init() throws Exception {
-        registerCommands();
+
+        DataSourceCheckerThread.initialize();
+        DataSourceConnectionCheckerThread.initialize();
+
+        commandMap = CommandUtils.loadCommands();
 
         terminal = TerminalBuilder.terminal();
 
         reader = LineReaderBuilder.builder()
                 .terminal(terminal)
-                .completer(new StringsCompleter("help", "exit"))
+                .completer(ConsoleUtils.getCompleter())
                 .build();
 
         //new SkipWidget(reader);
@@ -60,6 +76,8 @@ public class Main {
                 continue;
             }
 
+            log.info("Comando recebido: {}", line);
+
             if ("exit".equals(tokens[0])) {
                 ConsoleUtils.printWithTypingEffect("Fechando a aplicação.");
                 break;
@@ -86,20 +104,29 @@ public class Main {
 
             } else {
                 ConsoleUtils.printStyledError("Comando desconhecido: " + line);
-                ConsoleUtils.printStyledError("Comandos disponíveis: " + commandMap.keySet());
+                ConsoleUtils.printStyledError("Comandos disponíveis: " + CommandUtils.getAllCommands());
             }
         }
     }
 
-    private static void registerCommands() throws Exception {
-        Set<Class<? extends Command>> commandClasses = CommandUtils.getAllCommands();
+    public static LineReader getReader() {
 
-        commandMap = new HashMap<>();
-
-        for (Class<? extends Command> commandClass : commandClasses) {
-            String commandName = CommandUtils.getCommandName(commandClass);
-            commandMap.put(commandName, commandClass);
+        if (reader == null) {
+            throw new SistemaException("Reader não inicializado.");
         }
+
+        return reader;
     }
 
+    public static boolean isAuthenticated() {
+        boolean result = sessao != null;
+        log.debug(result ? "Usuário autenticado: {}" : "Usuário não autenticado.", Optional.ofNullable(sessao).map(Sessao::username).orElse(null));
+        return result;
+    }
+
+    public static void setSessao(Sessao sessao) {
+
+        log.info("Sessão definida: {}", sessao);
+        Main.sessao = sessao;
+    }
 }

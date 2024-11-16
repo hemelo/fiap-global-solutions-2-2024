@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration >
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+
+    <!-- RollingFile Appender for logging to a file with daily rolling -->
+    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Log file will roll daily, keeping 30 days worth of logs -->
+            <fileNamePattern>logs/app-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>3GB</totalSizeCap>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.layout.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!-- Root Logger: Define the log levels for the application -->
+    <root level="debug">
+        <appender-ref ref="RollingFile"/>
+    </root>
+
+    <!-- Example of specific logger configuration for a package -->
+    <logger name="com.zaxxer.hikari.HikariConfig" level="info">
+        <appender-ref ref="RollingFile"/>
+    </logger>
+
+    <!-- Disable logging for ch.qos.logback.classic class -->
+    <logger name="ch.qos.logback.classic" level="OFF" />
+
+</configuration>
