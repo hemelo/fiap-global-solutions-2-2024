@@ -2,14 +2,11 @@
 
 ## Descrição do Projeto
 
-
-
 ### Diagrama Conceitual das Tabelas
 
-- **Comunidade** - Armazena informações sobre comunidades isoladas. 
-- **Projeto** - Detalha projetos energéticos planejados ou em andamento. 
-- **Doador** - Registra doadores e parceiros interessados em contribuir. 
-- **Doacao** - Liga doadores a projetos específicos. 
-- **Impacto** - Guarda dados sobre o impacto do projeto em uma comunidade após sua conclusão. 
-- **Energia** - Especifica tipos de energia renovável usados nos projetos. 
+- **Comunidade** - Armazena informações sobre comunidades isoladas
+- **Energia** - Especifica tipos de energia
+- **Fornecedor** - Especifica os fornecedores de energia
+- **Polo Fornecedor** - Contém os polos de fornecimento de energia dos fornecedores
+- **Fornecimento Energético** - Relacionamento entre polo de fornecimento e comunidadade
 - **Usuario** - Para autenticação e gestão de acesso ao sistema
