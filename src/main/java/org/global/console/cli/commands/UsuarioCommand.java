@@ -3,8 +3,8 @@ package org.global.console.cli.commands;
 import jakarta.validation.ConstraintViolation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.global.console.Main;
-import org.global.console.dto.request.create.CreateFornecedorDto;
 import org.global.console.dto.request.create.CreateUserDto;
 import org.global.console.dto.request.update.UpdateUserDto;
 import org.global.console.dto.response.UsuarioResponse;
@@ -39,12 +39,15 @@ public class UsuarioCommand implements Command {
                 listar(subArgs);
                 break;
             case "adicionar":
+                CommandUtils.loginCheck();
                 adicionar(subArgs);
                 break;
             case "remover":
+                CommandUtils.loginCheck();
                 remover(subArgs);
                 break;
             case "atualizar":
+                CommandUtils.loginCheck();
                 atualizar(subArgs);
                 break;
             case "detalhar":
@@ -226,11 +229,6 @@ public class UsuarioCommand implements Command {
     @Override
     public String getSyntax() {
         return CommandUtils.createSyntax(this.getCommand(), List.of("operacao"), List.of("id"));
-    }
-
-    @Override
-    public String getOptions() {
-        return "";
     }
 
     @Override

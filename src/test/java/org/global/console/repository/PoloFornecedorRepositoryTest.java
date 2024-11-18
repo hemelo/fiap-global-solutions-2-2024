@@ -79,6 +79,9 @@ public class PoloFornecedorRepositoryTest {
                 .fornecedorId(fornecedor.getId())
                 .latitude(10.0)
                 .longitude(20.0)
+                .capacidadeNormal(500L)
+                .capacidadeMaxima(1000L)
+                .energiaId(1L)
                 .build();
 
         when(dataSource.getConnection()).thenReturn(connection);
@@ -116,6 +119,9 @@ public class PoloFornecedorRepositoryTest {
         when(resultSet.getLong("fornecedor_id")).thenReturn(1L);
         when(resultSet.getDouble("latitude")).thenReturn(10.0);
         when(resultSet.getDouble("longitude")).thenReturn(20.0);
+        when(resultSet.getLong("capacidade_populacional")).thenReturn(500L);
+        when(resultSet.getLong("capacidade_populacional_maxima")).thenReturn(1000L);
+        when(resultSet.getLong("id_energia")).thenReturn(1L);
 
         PoloFornecedor foundPoloFornecedor = poloFornecedorRepository.findById(1L);
 
@@ -141,6 +147,9 @@ public class PoloFornecedorRepositoryTest {
         when(resultSet.getLong("fornecedor_id")).thenReturn(1L);
         when(resultSet.getDouble("latitude")).thenReturn(10.0);
         when(resultSet.getDouble("longitude")).thenReturn(20.0);
+        when(resultSet.getLong("capacidade_populacional")).thenReturn(500L);
+        when(resultSet.getLong("capacidade_populacional_maxima")).thenReturn(1000L);
+        when(resultSet.getLong("id_energia")).thenReturn(1L);
 
         List<PoloFornecedor> poloFornecedores = poloFornecedorRepository.findAll();
 

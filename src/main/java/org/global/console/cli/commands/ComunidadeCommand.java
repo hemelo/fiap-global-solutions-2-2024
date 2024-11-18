@@ -2,6 +2,7 @@ package org.global.console.cli.commands;
 
 import jakarta.validation.ConstraintViolation;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.global.console.Main;
 import org.global.console.dto.request.create.CreateComunidadeDto;
 import org.global.console.dto.request.update.UpdateComunidadeDto;
@@ -33,12 +34,15 @@ public class ComunidadeCommand implements Command {
                 listar(subArgs);
                 break;
             case "adicionar":
+                CommandUtils.loginCheck();
                 adicionar(subArgs);
                 break;
             case "remover":
+                CommandUtils.loginCheck();
                 remover(subArgs);
                 break;
             case "atualizar":
+                CommandUtils.loginCheck();
                 atualizar(subArgs);
                 break;
             case "detalhar":
@@ -274,7 +278,8 @@ public class ComunidadeCommand implements Command {
             CommandUtils.printDetail("Data de Atualização", FormatUtils.formatDateTime(comunidade.updatedAt()) + "\n");
         }
     }
-    
+
+
     // Help
 
     @Override
@@ -285,11 +290,6 @@ public class ComunidadeCommand implements Command {
     @Override
     public String getSyntax() {
         return CommandUtils.createSyntax(this.getCommand(), List.of("operacao"), List.of("id"));
-    }
-
-    @Override
-    public String getOptions() {
-        return "";
     }
 
     @Override

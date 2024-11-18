@@ -1,5 +1,6 @@
 package org.global.console.services;
 
+import lombok.Getter;
 import org.global.console.dto.request.create.CreateFornecedorDto;
 import org.global.console.dto.request.create.CreatePoloFornecedorDto;
 import org.global.console.dto.request.update.UpdateFornecedorDto;
@@ -7,6 +8,7 @@ import org.global.console.dto.request.update.UpdatePoloFornecedorDto;
 import org.global.console.dto.response.FornecedorResponse;
 import org.global.console.dto.response.PoloFornecedorResponse;
 import org.global.console.model.Fornecedor;
+import org.global.console.model.FornecimentoEnergetico;
 import org.global.console.model.PoloFornecedor;
 import org.global.console.repository.FornecedorRepository;
 import org.global.console.repository.LogRepository;
@@ -15,16 +17,22 @@ import org.global.console.repository.PoloFornecedorRepository;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FornecedorService {
+
+    @Getter
     private final FornecedorRepository fornecedorRepository;
-    private static PoloFornecedorRepository poloFornecedorRepository;
+
+    @Getter
+    private final PoloFornecedorRepository poloFornecedorRepository;
     private final LogRepository logRepository;
 
     private static FornecedorService instance;
 
     private FornecedorService() {
         this.logRepository = LogRepository.getInstance();
+        this.poloFornecedorRepository = PoloFornecedorRepository.getInstance();
         this.fornecedorRepository = FornecedorRepository.getInstance();
     }
 
@@ -43,6 +51,7 @@ public class FornecedorService {
         Fornecedor fornecedor = Fornecedor.builder()
                 .nome(createFornecedorDto.nome())
                 .endereco(createFornecedorDto.endereco())
+                .descricao(createFornecedorDto.descricao())
                 .cnpj(createFornecedorDto.cnpj())
                 .build();
 
@@ -55,6 +64,7 @@ public class FornecedorService {
                 .id(updateFornecedorDto.id())
                 .nome(updateFornecedorDto.nome())
                 .endereco(updateFornecedorDto.endereco())
+                .descricao(updateFornecedorDto.descricao())
                 .cnpj(updateFornecedorDto.cnpj())
                 .build();
 
@@ -74,18 +84,21 @@ public class FornecedorService {
         fornecedorRepository.delete(id);
     }
 
-    public void createPoloFornecedor(CreatePoloFornecedorDto createPoloFornecedorDto) throws SQLException {
+    public PoloFornecedor createPoloFornecedor(CreatePoloFornecedorDto createPoloFornecedorDto) throws SQLException {
 
         PoloFornecedor poloFornecedor = PoloFornecedor.builder()
                 .nome(createPoloFornecedorDto.nome())
                 .endereco(createPoloFornecedorDto.endereco())
+                .energiaId(createPoloFornecedorDto.energiaId())
                 .fornecedorId(createPoloFornecedorDto.fornecedorId())
+                .capacidadeNormal(createPoloFornecedorDto.capacidadePopulacao())
+                .capacidadeMaxima(createPoloFornecedorDto.capacidadePopulacaoMaxima())
                 .latitude(createPoloFornecedorDto.latitude())
                 .longitude(createPoloFornecedorDto.longitude())
                 .build();
 
 
-        poloFornecedorRepository.save(poloFornecedor);
+        return poloFornecedorRepository.save(poloFornecedor);
     }
 
     public void updatePoloFornecedor(UpdatePoloFornecedorDto updatePoloFornecedorDto) throws SQLException {
@@ -94,6 +107,9 @@ public class FornecedorService {
                 .nome(updatePoloFornecedorDto.nome())
                 .endereco(updatePoloFornecedorDto.endereco())
                 .fornecedorId(updatePoloFornecedorDto.fornecedorId())
+                .energiaId(updatePoloFornecedorDto.energiaId())
+                .capacidadeNormal(updatePoloFornecedorDto.capacidadePopulacao())
+                .capacidadeMaxima(updatePoloFornecedorDto.capacidadePopulacaoMaxima())
                 .latitude(updatePoloFornecedorDto.latitude())
                 .longitude(updatePoloFornecedorDto.longitude())
                 .build();
@@ -145,7 +161,15 @@ public class FornecedorService {
         return poloFornecedorResponses;
     }
 
-    private FornecedorResponse toResponse(Fornecedor fornecedor) {
+    public long getSomaFornecimentoEnergeticoPolo(PoloFornecedor polo, List<FornecimentoEnergetico> fornecimentoEnergeticoList) {
+        return Objects.requireNonNullElse(fornecimentoEnergeticoList, new ArrayList<FornecimentoEnergetico>()).stream().filter(fornecimento -> fornecimento.getPoloFornecedor().getId().equals(polo.getId())).mapToLong(FornecimentoEnergetico::getPopulacao).sum();
+    }
+
+    FornecedorResponse toResponse(Fornecedor fornecedor) {
+
+        if (fornecedor == null) {
+            return null;
+        }
 
         List<PoloFornecedorResponse> listPolos = new ArrayList<>();
 
@@ -158,15 +182,21 @@ public class FornecedorService {
         return new FornecedorResponse(
                 fornecedor.getId(),
                 fornecedor.getNome(),
-                fornecedor.getEndereco(),
                 fornecedor.getCnpj(),
+                fornecedor.getDescricao(),
+                fornecedor.getEndereco(),
                 listPolos,
                 fornecedor.getCreatedAt(),
                 fornecedor.getUpdatedAt()
         );
     }
 
-    private PoloFornecedorResponse poloToResponse(PoloFornecedor polo) {
+    PoloFornecedorResponse poloToResponse(PoloFornecedor polo) {
+
+        if (polo == null) {
+            return null;
+        }
+
         return new PoloFornecedorResponse(
                 polo.getId(),
                 polo.getNome(),
@@ -174,6 +204,9 @@ public class FornecedorService {
                 polo.getLongitude(),
                 polo.getEndereco(),
                 polo.getFornecedorId(),
+                polo.getEnergiaId(),
+                polo.getCapacidadeNormal(),
+                polo.getCapacidadeMaxima(),
                 polo.getCreatedAt(),
                 polo.getUpdatedAt()
         );

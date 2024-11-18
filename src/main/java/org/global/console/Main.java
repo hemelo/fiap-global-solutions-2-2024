@@ -8,6 +8,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.global.console.cli.Introduction;
 import org.global.console.cli.commands.Command;
 import org.global.console.dto.Sessao;
+import org.global.console.exceptions.AutenticacaoException;
 import org.global.console.exceptions.SistemaException;
 import org.global.console.threads.DataSourceCheckerThread;
 import org.global.console.threads.DataSourceConnectionCheckerThread;
@@ -98,13 +99,15 @@ public class Main {
 
                 try {
                     commandInstance.execute(tokens);
+                } catch (AutenticacaoException ex) {
+                    ConsoleUtils.printStyledWarning(ex.getMessage());
                 } catch (Exception ex) {
                     ConsoleUtils.printStyledError("Erro crítico ao executar comando: " + ex.getMessage());
                 }
 
             } else {
                 ConsoleUtils.printStyledError("Comando desconhecido: " + line);
-                ConsoleUtils.printStyledError("Comandos disponíveis: " + CommandUtils.getAllCommands());
+                ConsoleUtils.printStyledError("Comandos disponíveis: " + CommandUtils.getAllCommandNames());
             }
         }
     }

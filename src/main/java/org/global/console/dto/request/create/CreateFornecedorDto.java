@@ -7,5 +7,6 @@ public record CreateFornecedorDto (
         String nome,
 
         String cnpj,
-        String endereco
+        String endereco,
+        String descricao
 ) {}

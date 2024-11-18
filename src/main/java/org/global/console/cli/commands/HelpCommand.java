@@ -110,11 +110,6 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public String getOptions() {
-        return "comando - O nome do comando para o qual você deseja obter ajuda.";
-    }
-
-    @Override
     public List<String> getExamples() {
 
         Set<Class<? extends Command>> commands = CommandUtils.getAllCommands();

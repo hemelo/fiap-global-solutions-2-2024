@@ -26,7 +26,18 @@ public record UpdatePoloFornecedorDto(
         Double longitude,
 
         @NotNull(message = "O ID do fornecedor é obrigatório")
-        Long fornecedorId
+        Long fornecedorId,
+
+        @NotNull(message = "O ID da energia é obrigatório")
+        Long energiaId,
+
+        @DecimalMin(value = "0", message = "A capacidade de população deve ser maior ou igual a 0")
+        @NotNull(message = "A capacidade de população é obrigatória")
+        Long capacidadePopulacao,
+
+        @DecimalMin(value = "0", message = "A capacidade de população máxima deve ser maior ou igual a 0")
+        @NotNull(message = "A capacidade de população máxima é obrigatória")
+        Long capacidadePopulacaoMaxima
 ) {
 
 }

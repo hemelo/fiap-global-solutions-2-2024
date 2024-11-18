@@ -1,6 +1,7 @@
 package org.global.console.infra;
 
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.internal.database.base.Database;
 import org.global.console.exceptions.SistemaException;
 import org.global.console.properties.DatabaseProperties;
@@ -8,6 +9,7 @@ import org.global.console.properties.DatabaseProperties;
 import java.sql.Connection;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@Slf4j
 public class DataSource {
 
     public final AtomicBoolean isInitializing = new AtomicBoolean(false);
@@ -32,7 +34,7 @@ public class DataSource {
             dataSource.setJdbcUrl(DatabaseProperties.getInstance().getProperty("database.url"));
             dataSource.setUsername(DatabaseProperties.getInstance().getProperty("database.username"));
             dataSource.setPassword(DatabaseProperties.getInstance().getProperty("database.password"));
-            dataSource.setMaximumPoolSize(10);
+            dataSource.setMaximumPoolSize(1);
             dataSource.setMinimumIdle(2);
             dataSource.setConnectionTimeout(30000);
             dataSource.setIdleTimeout(600000);
@@ -71,8 +73,11 @@ public class DataSource {
         }
 
         try {
-            return dataSource.getConnection();
+            Connection connection = dataSource.getConnection();
+            connection.setAutoCommit(true);
+            return connection;
         } catch (Exception e) {
+            log.error("Erro ao recuperar conexão com a base de dados", e);
             throw new SistemaException("Erro ao recuperar conexão com a base de dados", e);
         } finally {
 

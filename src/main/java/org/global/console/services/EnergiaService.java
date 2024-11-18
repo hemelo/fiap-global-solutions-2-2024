@@ -1,5 +1,6 @@
 package org.global.console.services;
 
+import lombok.Getter;
 import org.global.console.dto.request.create.CreateEnergiaDto;
 import org.global.console.dto.request.update.UpdateEnergiaDto;
 import org.global.console.dto.response.EnergiaResponse;
@@ -13,7 +14,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class EnergiaService {
+    @Getter
     private final EnergiaRepository energiaRepository;
+
     private final LogRepository logRepository;
 
     private static EnergiaService instance;
@@ -83,6 +86,11 @@ public class EnergiaService {
     }
 
     public EnergiaResponse toEnergiaResponse(Energia energia) {
+
+        if (energia == null) {
+            return null;
+        }
+
         return new EnergiaResponse(
                 energia.getId(),
                 energia.getNome(),

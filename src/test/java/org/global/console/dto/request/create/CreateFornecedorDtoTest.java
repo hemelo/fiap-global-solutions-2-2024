@@ -14,14 +14,14 @@ public class CreateFornecedorDtoTest {
 
     @Test
     public void testValidCreateFornecedorDto() {
-        CreateFornecedorDto dto = new CreateFornecedorDto("Nome", "CNPJ", "Endereco");
+        CreateFornecedorDto dto = new CreateFornecedorDto("Nome", "CNPJ", "Endereco", "Descricao");
         Set<ConstraintViolation<CreateFornecedorDto>> violations = ValidationUtils.validate(dto);
         assertTrue(violations.isEmpty());
     }
 
     @Test
     public void testInvalidCreateFornecedorDto() {
-        CreateFornecedorDto dto = new CreateFornecedorDto(null, null, null);
+        CreateFornecedorDto dto = new CreateFornecedorDto(null, null, null, null);
         Set<ConstraintViolation<CreateFornecedorDto>> violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());
     }

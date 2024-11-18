@@ -1,14 +1,14 @@
 package org.global.console.cli.commands;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.global.console.Main;
 import org.global.console.dto.Sessao;
 import org.global.console.dto.request.LoginDto;
 import org.global.console.services.UsuarioService;
 import org.global.console.utils.CommandUtils;
 import org.global.console.utils.ConsoleUtils;
-import org.jline.builtins.Completers;
-import org.jline.reader.impl.completer.StringsCompleter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoginCommand implements Command {
@@ -55,11 +55,6 @@ public class LoginCommand implements Command {
     @Override
     public String getSyntax() {
         return CommandUtils.createSyntax(getCommand(), List.of("username", "senha"), null);
-    }
-
-    @Override
-    public String getOptions() {
-        return "";
     }
 
     @Override

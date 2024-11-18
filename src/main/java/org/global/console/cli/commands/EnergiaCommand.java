@@ -2,8 +2,8 @@ package org.global.console.cli.commands;
 
 import jakarta.validation.ConstraintViolation;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.global.console.Main;
-import org.global.console.dto.request.create.CreateComunidadeDto;
 import org.global.console.dto.request.create.CreateEnergiaDto;
 import org.global.console.dto.request.update.UpdateEnergiaDto;
 import org.global.console.dto.response.EnergiaResponse;
@@ -18,7 +18,6 @@ import org.jline.reader.LineReader;
 import org.jline.reader.impl.completer.StringsCompleter;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class EnergiaCommand implements Command {
 
@@ -37,12 +36,15 @@ public class EnergiaCommand implements Command {
                 listar(subArgs);
                 break;
             case "adicionar":
+                CommandUtils.loginCheck();
                 adicionar(subArgs);
                 break;
             case "remover":
+                CommandUtils.loginCheck();
                 remover(subArgs);
                 break;
             case "atualizar":
+                CommandUtils.loginCheck();
                 atualizar(subArgs);
                 break;
             case "detalhar":
@@ -258,11 +260,6 @@ public class EnergiaCommand implements Command {
     @Override
     public String getSyntax() {
         return CommandUtils.createSyntax(this.getCommand(), List.of("operacao"), List.of("id"));
-    }
-
-    @Override
-    public String getOptions() {
-        return "";
     }
 
     @Override

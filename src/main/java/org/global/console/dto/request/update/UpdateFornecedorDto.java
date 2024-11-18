@@ -11,5 +11,6 @@ public record UpdateFornecedorDto (
         @NotBlank(message = "Nome é obrigatório")
         String nome,
         String cnpj,
-        String endereco
+        String endereco,
+        String descricao
 ) {}

@@ -1,5 +1,6 @@
 package org.global.console.services;
 
+import lombok.Getter;
 import org.global.console.dto.request.create.CreateComunidadeDto;
 import org.global.console.dto.request.update.UpdateComunidadeDto;
 import org.global.console.dto.response.ComunidadeResponse;
@@ -13,7 +14,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class ComunidadeService {
+
+    @Getter
     private final ComunidadeRepository comunidadeRepository;
+
     private final LogRepository logRepository;
 
     private static ComunidadeService instance;
@@ -36,6 +40,7 @@ public class ComunidadeService {
         Comunidade comunidade = Comunidade.builder()
                 .populacao(createComunidadeDto.populacao())
                 .nome(createComunidadeDto.nome())
+                .localizacao(createComunidadeDto.localizacao())
                 .descricao(createComunidadeDto.descricao())
                 .latitude(createComunidadeDto.latitude())
                 .longitude(createComunidadeDto.longitude())
@@ -51,6 +56,7 @@ public class ComunidadeService {
                 .populacao(updateComunidadeDto.populacao())
                 .id(updateComunidadeDto.id())
                 .nome(updateComunidadeDto.nome())
+                .localizacao(updateComunidadeDto.localizacao())
                 .descricao(updateComunidadeDto.descricao())
                 .latitude(updateComunidadeDto.latitude())
                 .longitude(updateComunidadeDto.longitude())
@@ -83,7 +89,12 @@ public class ComunidadeService {
         return Objects.requireNonNullElse(comunidades, new ArrayList<Comunidade>()).stream().map(this::toResponse).toList();
     }
 
-    private ComunidadeResponse toResponse(Comunidade comunidade) {
+    ComunidadeResponse toResponse(Comunidade comunidade) {
+
+        if (comunidade == null) {
+            return null;
+        }
+
         return new ComunidadeResponse(
                 comunidade.getId(),
                 comunidade.getNome(),
@@ -96,4 +107,5 @@ public class ComunidadeService {
                 comunidade.getUpdatedAt()
         );
     }
+
 }

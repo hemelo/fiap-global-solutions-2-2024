@@ -1,8 +1,8 @@
 package org.global.console.cli.commands;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.global.console.utils.CommandUtils;
 import org.jline.builtins.Completers;
-import org.jline.reader.impl.completer.StringsCompleter;
 
 import java.util.List;
 
@@ -15,7 +15,6 @@ public interface Command {
 
     String getDescription();
     String getSyntax();
-    String getOptions();
     List<String> getExamples();
 
     default Completers.TreeCompleter.Node getCompleter() {

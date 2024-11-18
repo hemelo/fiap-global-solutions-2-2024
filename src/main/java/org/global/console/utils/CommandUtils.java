@@ -3,8 +3,10 @@ package org.global.console.utils;
 import jakarta.validation.ConstraintViolation;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.global.console.Main;
 import org.global.console.cli.commands.*;
 import org.global.console.dto.request.update.UpdateComunidadeDto;
+import org.global.console.exceptions.AutenticacaoException;
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
 import org.reflections.Reflections;
@@ -31,7 +33,7 @@ public class CommandUtils {
         Set<Class<? extends Command>>  _commands = reflections.getSubTypesOf(Command.class);
         LinkedHashSet<Class<? extends Command>>__commands = _commands.stream().sorted(Comparator.comparing(CommandUtils::getCommandName)).collect(Collectors.toCollection(LinkedHashSet::new));
 
-        List<Class<? extends Command>> lastCommands = List.of(LoginCommand.class, LogoutCommand.class, HelpCommand.class, SysInfoCommand.class);
+        List<Class<? extends Command>> lastCommands = List.of(RegisterCommand.class, LoginCommand.class, LogoutCommand.class, HelpCommand.class, SysInfoCommand.class);
 
         for (Class<? extends Command> command : lastCommands) {
             __commands.remove(command);
@@ -147,14 +149,6 @@ public class CommandUtils {
                 AttributedStyle.DEFAULT).toAnsi());
 
         sb.append(new AttributedString(
-                "\nOpções: ",
-                AttributedStyle.DEFAULT.foreground(CommandUtils.ColorExtensions.GRAY)).toAnsi());
-
-        sb.append(new AttributedString(
-                command.getOptions(),
-                AttributedStyle.DEFAULT).toAnsi());
-
-        sb.append(new AttributedString(
                 "\nExemplos: ",
                 AttributedStyle.DEFAULT.foreground(CommandUtils.ColorExtensions.GRAY)).toAnsi());
 
@@ -179,7 +173,13 @@ public class CommandUtils {
         ConsoleUtils.printWithTypingEffect(new AttributedString(s + " (s/n): ",
                 AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW)).toAnsi());
 
-        return ConsoleUtils.readBoolean();
+        Boolean result = ConsoleUtils.readBoolean();
+
+        if (!result) {
+            ConsoleUtils.printStyledWarning("Operação cancelada.");
+        }
+
+        return result;
     }
 
     public static Map<String, Class<? extends Command>> loadCommands() {
@@ -205,6 +205,16 @@ public class CommandUtils {
         }
 
         ConsoleUtils.printStyledWarning("Dados inválidos. " + message);
+    }
+
+    public static void loginCheck() {
+        if (!Main.isAuthenticated()) {
+            throw new AutenticacaoException("Você precisa estar autenticado para executar este comando.");
+        }
+    }
+
+    public static String getAllCommandNames() {
+        return getAllCommands().stream().map(CommandUtils::getCommandName).collect(Collectors.joining(", "));
     }
 
     /**

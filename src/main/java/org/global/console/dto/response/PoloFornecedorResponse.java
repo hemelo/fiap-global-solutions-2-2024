@@ -9,6 +9,9 @@ public record PoloFornecedorResponse (
     Double longitude,
     String endereco,
     Long idFornecedor,
+    Long idEnergia,
+    Long capacidadePopulacao,
+    Long capacidadePopulacaoMaxima,
     LocalDateTime createdAt,
     LocalDateTime updatedAt
 ) {

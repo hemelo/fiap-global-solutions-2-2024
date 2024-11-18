@@ -14,35 +14,48 @@ public class UpdatePoloFornecedorDtoTest {
 
     @Test
     public void testValidUpdatePoloFornecedorDto() {
-        UpdatePoloFornecedorDto dto = new UpdatePoloFornecedorDto(1L, "Nome", "Endereço", 20.0, 30.0, 1L);
+        UpdatePoloFornecedorDto dto = new UpdatePoloFornecedorDto(1L, "Nome", "Endereço", 20.0, 30.0, 1L, 1L, 20L, 40L);
         Set<ConstraintViolation<UpdatePoloFornecedorDto>> violations = ValidationUtils.validate(dto);
         assertTrue(violations.isEmpty());
     }
 
     @Test
     public void testInvalidUpdatePoloFornecedorDto() {
-        UpdatePoloFornecedorDto dto = new UpdatePoloFornecedorDto(1L, null, "Endereço", 20.0, 30.0, 1L);
+        UpdatePoloFornecedorDto dto = new UpdatePoloFornecedorDto(1L, null, "Endereço", 20.0, 30.0, 1L, 1L, 20L, 40L);
         Set<ConstraintViolation<UpdatePoloFornecedorDto>> violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());
 
-        dto = new UpdatePoloFornecedorDto(1L, "Nome", "", 20.0, 30.0, 1L);
+        dto = new UpdatePoloFornecedorDto(1L, "Nome", "", 20.0, 30.0, 1L, 1L, 20L, 40L);
         violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());
 
-        dto = new UpdatePoloFornecedorDto(1L, "Nome", "Endereço", null, 30.0, 1L);
+        dto = new UpdatePoloFornecedorDto(1L, "Nome", "Endereço", null, 30.0, 1L, 1L, 20L, 40L);
         violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());
 
-        dto = new UpdatePoloFornecedorDto(1L, "Nome", "Endereço", 20.0, null, 1L);
+        dto = new UpdatePoloFornecedorDto(1L, "Nome", "Endereço", 20.0, null, 1L, 1L, 20L, 40L);
         violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());
 
-        dto = new UpdatePoloFornecedorDto(1L, "Nome", "Endereço", 20.0, 30.0, null);
+        dto = new UpdatePoloFornecedorDto(1L, "Nome", "Endereço", 20.0, 30.0, null, 1L, 20L, 40L);
         violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());
 
-        dto = new UpdatePoloFornecedorDto(1L, null, null, null, null, null);
+        dto = new UpdatePoloFornecedorDto(1L, null, null, null, null, null, 1L, 20L, 40L);
         violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());
+
+        dto = new UpdatePoloFornecedorDto(1L, "Nome", "Endereço", 20.0, 30.0, 1L, null, 20L, 40L);
+        violations = ValidationUtils.validate(dto);
+        assertFalse(violations.isEmpty());
+
+        dto = new UpdatePoloFornecedorDto(1L, "Nome", "Endereço", 20.0, 30.0, 1L, 1L, null, 40L);
+        violations = ValidationUtils.validate(dto);
+        assertFalse(violations.isEmpty());
+
+        dto = new UpdatePoloFornecedorDto(1L, "Nome", "Endereço", 20.0, 30.0, 1L, 1L, 20L, null);
+        violations = ValidationUtils.validate(dto);
+        assertFalse(violations.isEmpty());
+
     }
 }

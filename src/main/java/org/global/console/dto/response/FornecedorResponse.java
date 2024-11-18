@@ -10,6 +10,7 @@ public record FornecedorResponse (
     Long id,
     String nome,
     String cnpj,
+    String descricao,
     String endereco,
     List<PoloFornecedorResponse> polos,
     LocalDateTime createdAt,
