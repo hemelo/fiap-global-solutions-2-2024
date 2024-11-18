@@ -22,19 +22,13 @@ CREATE TABLE fornecimento_energetico
     updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_comunidade_id FOREIGN KEY  (comunidade_id) REFERENCES comunidade (id),
-    CONSTRAINT fk_polo_id FOREIGN KEY  (polo_id) REFERENCES energia (id)
+    CONSTRAINT fk_polo_id FOREIGN KEY  (polo_id) REFERENCES polo_fornecedor (id)
 );
 
 -- Triggers
 
-CREATE
-    OR REPLACE TRIGGER fornecimento_energetico_before_update
-    BEFORE
-        UPDATE
-    ON fornecimento_energetico
-    FOR EACH ROW
+CREATE OR REPLACE TRIGGER fornecimento_energetico_before_update BEFORE UPDATE ON fornecimento_energetico FOR EACH ROW
 BEGIN
-    :NEW
-        .updated_at := CURRENT_TIMESTAMP;
+    :NEW.updated_at := CURRENT_TIMESTAMP;
 END;
 /

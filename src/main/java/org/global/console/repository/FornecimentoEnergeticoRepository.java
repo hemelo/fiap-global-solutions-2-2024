@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Classe que representa o repositório de uso energético.
+ * Classe que representa o repositório de fornecimento energético.
  * Contém métodos para salvar, buscar, atualizar e deletar uso enegético.
  * É responsável por realizar a comunicação com o banco de dados.
  */
@@ -34,7 +34,7 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
     }
 
     public FornecimentoEnergetico save(FornecimentoEnergetico fornecimentoEnergetico) throws SQLException {
-        String query = "INSERT INTO fornecimento_energetico (polo_id, comunidade_id, populacao) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO fornecimento_energetico (polo_id, comunidade_id, populacao) VALUES (?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -61,13 +61,13 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
                             }
 
                         } catch (Exception ex) {
-                            log.error("Erro ao buscar ID do uso energético", ex);
+                            log.error("Erro ao buscar ID do fornecimento energético", ex);
                         }
                     }
                 }
 
             } catch (Exception e) {
-                log.error("Erro ao salvar uso energético", e);
+                log.error("Erro ao salvar fornecimento energético", e);
                 throw e;
             }
         }
@@ -87,9 +87,9 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
                     return mapResultToFornecimentoEnergetico(rs, false);
                 }
 
-                log.info("Uso energético {} não encontrado", id);
+                log.info("fornecimento energético {} não encontrado", id);
             } catch (Exception e) {
-                log.error("Erro ao buscar uso energético", e);
+                log.error("Erro ao buscar fornecimento energético", e);
                 throw e;
             }
         }
@@ -110,7 +110,7 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
                     fornecimentoEnergeticos.add(mapResultToFornecimentoEnergetico(rs, false));
                 }
             } catch (Exception e) {
-                log.error("Erro ao buscar uso energético", e);
+                log.error("Erro ao buscar fornecimento energético", e);
                 throw e;
             }
         }
@@ -130,9 +130,9 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
                     return mapResultToFornecimentoEnergetico(rs, true);
                 }
 
-                log.info("Uso energético {} não encontrado", id);
+                log.info("fornecimento energético {} não encontrado", id);
             } catch (Exception e) {
-                log.error("Erro ao buscar uso energético", e);
+                log.error("Erro ao buscar fornecimento energético", e);
                 throw e;
             }
         }
@@ -156,7 +156,7 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
                 }
 
             } catch (Exception e) {
-                log.error("Erro ao buscar uso energético", e);
+                log.error("Erro ao buscar fornecimento energético", e);
                 throw e;
             }
         }
@@ -176,7 +176,7 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
                     fornecimentoEnergeticos.add(mapResultToFornecimentoEnergetico(rs, false));
                 }
             } catch (Exception e) {
-                log.error("Erro ao buscar uso energético", e);
+                log.error("Erro ao buscar fornecimento energético", e);
                 throw e;
             }
         }
@@ -196,7 +196,7 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
                     fornecimentoEnergeticos.add(mapResultToFornecimentoEnergetico(rs, true));
                 }
             } catch (Exception e) {
-                log.error("Erro ao buscar uso energético", e);
+                log.error("Erro ao buscar fornecimento energético", e);
                 throw e;
             }
         }
@@ -215,9 +215,9 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
                 stmt.setLong(4, fornecimentoEnergetico.getId());
                 stmt.executeUpdate();
 
-                log.info("Uso energético {} atualizado com sucesso", fornecimentoEnergetico.getId());
+                log.info("fornecimento energético {} atualizado com sucesso", fornecimentoEnergetico.getId());
             } catch (Exception e) {
-                log.error("Erro ao atualizar uso energético", e);
+                log.error("Erro ao atualizar fornecimento energético", e);
                 throw e;
             }
         }
@@ -233,10 +233,10 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setLong(1, id);
                 result = stmt.executeUpdate() > 0;
-                log.info(result ? "Uso energético {} deletado com sucesso" : "Uso energético {} não encontrado para deleção", id);
+                log.info(result ? "fornecimento energético {} deletado com sucesso" : "fornecimento energético {} não encontrado para deleção", id);
                 return result;
             } catch (Exception e) {
-                log.error("Erro ao deletar uso energético", e);
+                log.error("Erro ao deletar fornecimento energético", e);
                 throw e;
             }
         }
@@ -250,7 +250,7 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
                     fe.created_at,
                     fe.updated_at,
                     p.id AS polo_id,
-                    f.id AS id_fornecedor,
+                    f.id AS fornecedor_id,
                     e.id AS energia_id,
                     c.id AS comunidade_id,
                     p.nome AS polo_nome,
@@ -275,13 +275,13 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
                 FROM
                     fornecimento_energetico fe
                 JOIN
-                    polo_fornecedor p ON fe.id_polo = p.id
+                    polo_fornecedor p ON fe.polo_id = p.id
                 JOIN
                     fornecedor f ON p.id_fornecedor = f.id
                 JOIN
                     energia e ON p.id_energia = e.id
                 JOIN
-                    comunidade c ON fe.id_comunidade = c.id
+                    comunidade c ON fe.comunidade_id = c.id
                 """;
     }
 
@@ -309,7 +309,7 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
 
             try {
                 fornecedor = Fornecedor.builder()
-                        .id(resultSet.getLong("id_fornecedor"))
+                        .id(resultSet.getLong("fornecedor_id"))
                         .nome(resultSet.getString("fornecedor_nome"))
                         .cnpj(resultSet.getString("fornecedor_cnpj"))
                         .endereco(resultSet.getString("fornecedor_endereco"))
@@ -352,7 +352,7 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
 
 
         return FornecimentoEnergetico.builder()
-                .id(resultSet.getLong("id"))
+                .id(resultSet.getLong(1))
                 .poloId(resultSet.getLong("polo_id"))
                 .comunidadeId(resultSet.getLong("comunidade_id"))
                 .poloFornecedor(poloFornecedor)

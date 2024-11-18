@@ -1,5 +1,6 @@
 package org.global.console.services;
 
+import lombok.Getter;
 import org.global.console.dto.request.create.CreateFornecimentoEnergeticoDto;
 import org.global.console.dto.request.update.UpdateFornecimentoEnergeticoDto;
 import org.global.console.dto.response.*;
@@ -18,7 +19,9 @@ import java.util.Optional;
 
 public class FornecimentoEnergeticoService {
 
+    @Getter
     private final FornecimentoEnergeticoRepository fornecimentoEnergeticoRepository;
+
     private final LogRepository logRepository;
 
     private static FornecimentoEnergeticoService instance;

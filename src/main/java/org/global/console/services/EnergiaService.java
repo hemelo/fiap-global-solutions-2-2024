@@ -93,9 +93,9 @@ public class EnergiaService {
 
         return new EnergiaResponse(
                 energia.getId(),
+                energia.getTipo(),
                 energia.getNome(),
                 energia.getDescricao(),
-                energia.getTipo(),
                 energia.getCreatedAt(),
                 energia.getUpdatedAt()
                // energia.getUnidade().name()

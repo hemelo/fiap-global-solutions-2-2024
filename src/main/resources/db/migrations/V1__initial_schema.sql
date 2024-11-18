@@ -77,57 +77,32 @@ CREATE TABLE polo_fornecedor
 
 -- Triggers
 
-CREATE
-OR REPLACE TRIGGER energia_before_update
-BEFORE
-UPDATE ON energia
-    FOR EACH ROW
+CREATE OR REPLACE TRIGGER energia_before_update BEFORE UPDATE ON energia FOR EACH ROW
 BEGIN
-    :NEW
-.updated_at := CURRENT_TIMESTAMP;
+    :NEW.updated_at := CURRENT_TIMESTAMP;
 END;
 /
 
-CREATE
-OR REPLACE TRIGGER comunidade_before_update
-BEFORE
-UPDATE ON comunidade
-    FOR EACH ROW
+CREATE OR REPLACE TRIGGER comunidade_before_update BEFORE UPDATE ON comunidade FOR EACH ROW
 BEGIN
-    :NEW
-.updated_at := CURRENT_TIMESTAMP;
+    :NEW.updated_at := CURRENT_TIMESTAMP;
 END;
 /
 
-CREATE
-OR REPLACE TRIGGER usuario_before_update
-BEFORE
-UPDATE ON usuario
-    FOR EACH ROW
+CREATE OR REPLACE TRIGGER usuario_before_update BEFORE UPDATE ON usuario FOR EACH ROW
 BEGIN
-    :NEW
-.updated_at := CURRENT_TIMESTAMP;
+    :NEW.updated_at := CURRENT_TIMESTAMP;
 END;
 /
 
-CREATE
-OR REPLACE TRIGGER fornecedor_before_update
-BEFORE
-UPDATE ON fornecedor
-    FOR EACH ROW
+CREATE OR REPLACE TRIGGER fornecedor_before_update BEFORE UPDATE ON fornecedor FOR EACH ROW
 BEGIN
-    :NEW
-.updated_at := CURRENT_TIMESTAMP;
+    :NEW.updated_at := CURRENT_TIMESTAMP;
 END;
 /
 
-CREATE
-OR REPLACE TRIGGER polo_fornecedor_before_update
-BEFORE
-UPDATE ON polo_fornecedor
-    FOR EACH ROW
+CREATE OR REPLACE TRIGGER polo_fornecedor_before_update BEFORE UPDATE ON polo_fornecedor FOR EACH ROW
 BEGIN
-    :NEW
-.updated_at := CURRENT_TIMESTAMP;
+    :NEW.updated_at := SYSDATE;
 END;
 /

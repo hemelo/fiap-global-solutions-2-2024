@@ -34,6 +34,14 @@ public class FornecedorServiceTest {
         energiaService.getEnergiaRepository().truncate();
     }
 
+    @AfterAll
+    public void tearDown() {
+        fornecedorService.getPoloFornecedorRepository().truncate();
+        fornecedorService.getFornecedorRepository().truncate();
+        energiaService.getEnergiaRepository().truncate();
+    }
+
+
     @Test
     public void testCreateFornecedor() throws SQLException {
         CreateFornecedorDto createFornecedorDto = new CreateFornecedorDto("Fornecedor A", "12345678901234", "Endereco A",  "Descricao A");
@@ -54,7 +62,7 @@ public class FornecedorServiceTest {
         assertNotNull(createdFornecedor);
         assertNotNull(createdFornecedor.getId());
 
-        UpdateFornecedorDto updateFornecedorDto = new UpdateFornecedorDto(createdFornecedor.getId(), "Fornecedor B Atualizado", "Endereco B Atualizado", "23456789012345", "Descricao B Atualizado");
+        UpdateFornecedorDto updateFornecedorDto = new UpdateFornecedorDto(createdFornecedor.getId(), "Fornecedor B Atualizado", "23456789012345", "Endereco B Atualizado", "Descricao B Atualizado");
         Fornecedor updatedFornecedor = fornecedorService.updateFornecedor(updateFornecedorDto);
 
         assertNotNull(updatedFornecedor);
@@ -138,16 +146,16 @@ public class FornecedorServiceTest {
         assertNotNull(fornecedor.getId());
 
         CreatePoloFornecedorDto createPoloFornecedorDto = new CreatePoloFornecedorDto("Polo B", "Endereco B", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 4000L);
-        fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
+        PoloFornecedor createdPolo = fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
 
-        List<PoloFornecedor> polos = fornecedorService.getAllPolosFornecedor();
-        PoloFornecedor createdPolo = polos.stream().filter(polo -> polo.getNome().equals("Polo B")).findFirst().orElse(null);
         assertNotNull(createdPolo);
+        assertNotNull(createdPolo.getId());
 
         UpdatePoloFornecedorDto updatePoloFornecedorDto = new UpdatePoloFornecedorDto(createdPolo.getId(), "Polo B Atualizado", "Endereco B Atualizado", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 4000L);
         fornecedorService.updatePoloFornecedor(updatePoloFornecedorDto);
 
-        PoloFornecedor updatedPolo = fornecedorService.getPolosFornecedorByFornecedorId(1L).stream().filter(polo -> polo.getId().equals(createdPolo.getId())).findFirst().orElse(null);
+        PoloFornecedor updatedPolo = fornecedorService.getPoloFornecedorById(createdPolo.getId());
+
         assertNotNull(updatedPolo);
         assertEquals("Polo B Atualizado", updatedPolo.getNome());
         assertEquals("Endereco B Atualizado", updatedPolo.getEndereco());
@@ -177,11 +185,10 @@ public class FornecedorServiceTest {
         assertNotNull(fornecedor.getId());
 
         CreatePoloFornecedorDto createPoloFornecedorDto = new CreatePoloFornecedorDto("Polo C", "Endereco C", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 4000L);
-        fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
+        PoloFornecedor createdPolo = fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
 
-        List<PoloFornecedor> polos = fornecedorService.getAllPolosFornecedor();
-        PoloFornecedor createdPolo = polos.stream().filter(polo -> polo.getNome().equals("Polo C")).findFirst().orElse(null);
         assertNotNull(createdPolo);
+        assertNotNull(createdPolo.getId());
 
         fornecedorService.deletePoloFornecedor(createdPolo.getId());
 

@@ -48,7 +48,7 @@ public class ComunidadeServiceTest {
         CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade B", "Descrição B", "Localização B", 15.0, 25.0, 2000L);
         Comunidade createdComunidade = comunidadeService.createComunidade(createComunidadeDto);
 
-        UpdateComunidadeDto updateComunidadeDto = new UpdateComunidadeDto(createdComunidade.getId(), "Comunidade B Atualizada", "Localização B Atualizada", "Descrição B Atualizada", 15.5, 25.5, 2500L);
+        UpdateComunidadeDto updateComunidadeDto = new UpdateComunidadeDto(createdComunidade.getId(), "Comunidade B Atualizada", "Descrição B Atualizada", "Localização B Atualizada", 15.5, 25.5, 2500L);
         Comunidade updatedComunidade = comunidadeService.updateComunidade(updateComunidadeDto);
 
         assertNotNull(updatedComunidade);

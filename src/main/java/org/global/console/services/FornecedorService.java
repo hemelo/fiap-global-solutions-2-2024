@@ -117,6 +117,11 @@ public class FornecedorService {
         poloFornecedorRepository.update(poloFornecedor);
     }
 
+
+    public PoloFornecedor getPoloFornecedorById(Long id) throws SQLException {
+        return poloFornecedorRepository.findById(id);
+    }
+
     public List<PoloFornecedor> getAllPolosFornecedor() throws SQLException {
         return poloFornecedorRepository.findAll();
     }
@@ -211,6 +216,4 @@ public class FornecedorService {
                 polo.getUpdatedAt()
         );
     }
-
-
 }
