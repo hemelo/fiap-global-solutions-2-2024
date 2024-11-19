@@ -70,8 +70,8 @@ public class EnergiaService {
         return energiaRepository.findById(id);
     }
 
-    public void deleteEnergia(Long id) throws SQLException {
-        energiaRepository.delete(id);
+    public boolean deleteEnergia(Long id) throws SQLException {
+        return energiaRepository.delete(id);
     }
 
     public List<EnergiaResponse> viewAllEnergias() throws SQLException {

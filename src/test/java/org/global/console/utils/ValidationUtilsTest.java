@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-public class ValidationUtilsTest {
+class ValidationUtilsTest {
 
     @Test
-    public void testValidaEmail() {
+    void testValidaEmail() {
 
         ObjectWithEmailValidation object = new ObjectWithEmailValidation();
         object.email = "qualquer_coisa";

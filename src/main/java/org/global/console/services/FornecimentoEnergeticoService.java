@@ -87,8 +87,8 @@ public class FornecimentoEnergeticoService {
         return fornecimentoEnergeticoRepository.findByIdDetailed(id);
     }
 
-    public void deleteFornecimentoEnergetico(Long id) throws SQLException {
-        fornecimentoEnergeticoRepository.delete(id);
+    public boolean deleteFornecimentoEnergetico(Long id) throws SQLException {
+        return fornecimentoEnergeticoRepository.delete(id);
     }
 
     public FornecimentoEnergeticoResponse viewFornecimentoEnergetico(long id) throws SQLException {

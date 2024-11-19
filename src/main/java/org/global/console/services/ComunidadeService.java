@@ -75,8 +75,8 @@ public class ComunidadeService {
         return comunidadeRepository.findById(id);
     }
 
-    public void deleteComunidade(Long id) throws SQLException {
-        comunidadeRepository.delete(id);
+    public boolean deleteComunidade(Long id) throws SQLException {
+        return comunidadeRepository.delete(id);
     }
 
     public ComunidadeResponse viewComunidade(long id) throws SQLException {

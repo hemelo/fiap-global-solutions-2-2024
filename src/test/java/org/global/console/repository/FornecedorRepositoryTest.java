@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class FornecedorRepositoryTest {
+class FornecedorRepositoryTest {
 
     @Mock
     private DataSource dataSource;
@@ -47,19 +47,19 @@ public class FornecedorRepositoryTest {
     private Fornecedor fornecedor;
 
     @BeforeAll
-    public static void beginTransaction(@Mock DataSource dataSource, @Mock Connection connection) throws SQLException {
+    static void beginTransaction(@Mock DataSource dataSource, @Mock Connection connection) throws SQLException {
         when(dataSource.getConnection()).thenReturn(connection);
         connection.setAutoCommit(false);
     }
 
     @AfterAll
-    public static void rollbackTransaction(@Mock Connection connection) throws SQLException {
+    static void rollbackTransaction(@Mock Connection connection) throws SQLException {
         connection.rollback();
         connection.setAutoCommit(true);
     }
 
     @BeforeEach
-    public void setUp() throws SQLException {
+    void setUp() throws SQLException {
         fornecedor = Fornecedor.builder()
                 .id(1L)
                 .nome("Fornecedor Teste")
@@ -71,7 +71,7 @@ public class FornecedorRepositoryTest {
     }
 
     @Test
-    public void testSave() throws SQLException {
+    void testSave() throws SQLException {
         when(connection.prepareStatement(anyString(), anyInt())).thenReturn(preparedStatement);
         when(preparedStatement.getGeneratedKeys()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true);
@@ -85,14 +85,14 @@ public class FornecedorRepositoryTest {
     }
 
     @Test
-    public void testSaveException() throws SQLException {
+    void testSaveException() throws SQLException {
         when(connection.prepareStatement(anyString(), anyInt())).thenThrow(new SQLException("Database error"));
 
         assertThrows(SQLException.class, () -> fornecedorRepository.save(fornecedor));
     }
 
     @Test
-    public void testFindById() throws SQLException {
+    void testFindById() throws SQLException {
         when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true);
@@ -108,14 +108,14 @@ public class FornecedorRepositoryTest {
     }
 
     @Test
-    public void testFindByIdException() throws SQLException {
+    void testFindByIdException() throws SQLException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException("Database error"));
 
         assertThrows(SQLException.class, () -> fornecedorRepository.findById(1L));
     }
 
     @Test
-    public void testFindAll() throws SQLException {
+    void testFindAll() throws SQLException {
         when(connection.createStatement()).thenReturn(statement);
         when(statement.executeQuery(anyString())).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true, false);
@@ -131,14 +131,14 @@ public class FornecedorRepositoryTest {
     }
 
     @Test
-    public void testFindAllException() throws SQLException {
+    void testFindAllException() throws SQLException {
         when(connection.createStatement()).thenThrow(new SQLException("Database error"));
 
         assertThrows(SQLException.class, () -> fornecedorRepository.findAll());
     }
 
     @Test
-    public void testUpdate() throws SQLException {
+    void testUpdate() throws SQLException {
         when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
 
         fornecedorRepository.update(fornecedor);
@@ -147,14 +147,14 @@ public class FornecedorRepositoryTest {
     }
 
     @Test
-    public void testUpdateException() throws SQLException {
+    void testUpdateException() throws SQLException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException("Database error"));
 
         assertThrows(SQLException.class, () -> fornecedorRepository.update(fornecedor));
     }
 
     @Test
-    public void testDelete() throws SQLException {
+    void testDelete() throws SQLException {
         when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
         when(preparedStatement.executeUpdate()).thenReturn(1);
 
@@ -164,7 +164,7 @@ public class FornecedorRepositoryTest {
     }
 
     @Test
-    public void testDeleteException() throws SQLException {
+    void testDeleteException() throws SQLException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException("Database error"));
 
         assertThrows(SQLException.class, () -> fornecedorRepository.delete(1L));

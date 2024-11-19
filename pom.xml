@@ -228,7 +228,6 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>${main.class}</mainClass>
                             <systemProperties>
                                 <property>
                                     <name>logback.configurationFile</name>
@@ -238,6 +237,9 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <mainClass>${main.class}</mainClass>
+                </configuration>
             </plugin>
 
             <plugin>

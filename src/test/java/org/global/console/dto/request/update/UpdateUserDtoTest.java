@@ -13,24 +13,24 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UpdateUserDtoTest {
+class UpdateUserDtoTest {
 
     @Test
-    public void testValidUpdateUserDto() {
+    void testValidUpdateUserDto() {
         UpdateUserDto dto = new UpdateUserDto("login", "nome", "email@gmail.com", "senha");
         Set<ConstraintViolation<UpdateUserDto>> violations = ValidationUtils.validate(dto);
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    public void testInvalidEmailUpdateUserDto() {
+    void testInvalidEmailUpdateUserDto() {
         UpdateUserDto dto = new UpdateUserDto("login", "nome", "email", "senha");
         Set<ConstraintViolation<UpdateUserDto>> violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());
     }
 
     @Test
-    public void testInvalidUpdateUserDto() {
+    void testInvalidUpdateUserDto() {
         UpdateUserDto dto = new UpdateUserDto("", "", "", "");
         Set<ConstraintViolation<UpdateUserDto>> violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());

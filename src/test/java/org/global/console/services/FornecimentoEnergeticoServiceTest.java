@@ -12,7 +12,7 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class FornecimentoEnergeticoServiceTest {
+class FornecimentoEnergeticoServiceTest {
 
     private ComunidadeService comunidadeService;
     private EnergiaService energiaService;
@@ -20,7 +20,7 @@ public class FornecimentoEnergeticoServiceTest {
     private FornecimentoEnergeticoService fornecimentoEnergeticoService;
 
     @BeforeAll
-    public void setUp() {
+    void setUp() {
         comunidadeService = ComunidadeService.getInstance();
         energiaService = EnergiaService.getInstance();
         fornecedorService = FornecedorService.getInstance();
@@ -34,7 +34,7 @@ public class FornecimentoEnergeticoServiceTest {
     }
 
     @AfterAll
-    public void tearDown() {
+    void tearDown() {
         fornecimentoEnergeticoService.getFornecimentoEnergeticoRepository().truncate();
         fornecedorService.getPoloFornecedorRepository().truncate();
         fornecedorService.getFornecedorRepository().truncate();
@@ -43,200 +43,219 @@ public class FornecimentoEnergeticoServiceTest {
     }
 
     @Test
-    public void testCreateFornecimentoEnergetico() throws SQLException {
-        CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Solar", "Energia obtida a partir do sol", null, "Renovável");
-        Energia energia = energiaService.createEnergia(createEnergiaDto);
+    void testCreateFornecimentoEnergetico() throws SQLException {
 
-        assertNotNull(energia);
-        assertNotNull(energia.getId());
+        Assertions.assertDoesNotThrow(() -> {
+            CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Solar", "Energia obtida a partir do sol", null, "Renovável");
+            Energia energia = energiaService.createEnergia(createEnergiaDto);
 
-        CreateFornecedorDto createFornecedorDto = new CreateFornecedorDto("Fornecedor A", "12345678901234", "Endereco A", "Descricao A");
-        Fornecedor fornecedor = fornecedorService.createFornecedor(createFornecedorDto);
+            assertNotNull(energia);
+            assertNotNull(energia.getId());
 
-        assertNotNull(fornecedor);
-        assertNotNull(fornecedor.getId());
+            CreateFornecedorDto createFornecedorDto = new CreateFornecedorDto("Fornecedor A", "12345678901234", "Endereco A", "Descricao A");
+            Fornecedor fornecedor = fornecedorService.createFornecedor(createFornecedorDto);
 
-        CreatePoloFornecedorDto createPoloFornecedorDto = new CreatePoloFornecedorDto("Polo A", "Endereco A", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 4000L);
-        PoloFornecedor poloFornecedor = fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
+            assertNotNull(fornecedor);
+            assertNotNull(fornecedor.getId());
 
-        assertNotNull(poloFornecedor);
-        assertNotNull(poloFornecedor.getId());
+            CreatePoloFornecedorDto createPoloFornecedorDto = new CreatePoloFornecedorDto("Polo A", "Endereco A", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 4000L);
+            PoloFornecedor poloFornecedor = fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
 
-        System.out.println(poloFornecedor.getId());
+            assertNotNull(poloFornecedor);
+            assertNotNull(poloFornecedor.getId());
 
-        CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade A", "Endereco A", "Localizacao A", 10.0, 20.0, 2000L);
-        Comunidade comunidade = comunidadeService.createComunidade(createComunidadeDto);
+            System.out.println(poloFornecedor.getId());
 
-        assertNotNull(comunidade);
-        assertNotNull(comunidade.getId());
+            CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade A", "Endereco A", "Localizacao A", 10.0, 20.0, 2000L);
+            Comunidade comunidade = comunidadeService.createComunidade(createComunidadeDto);
 
-        CreateFornecimentoEnergeticoDto createFornecimentoEnergeticoDto = new CreateFornecimentoEnergeticoDto(comunidade.getId(), poloFornecedor.getId(), 1000L);
-        FornecimentoEnergetico fornecimentoEnergetico = fornecimentoEnergeticoService.createFornecimentoEnergetico(createFornecimentoEnergeticoDto);
+            assertNotNull(comunidade);
+            assertNotNull(comunidade.getId());
 
-        assertNotNull(fornecimentoEnergetico);
-        assertNotNull(fornecimentoEnergetico.getId());
-        assertEquals(comunidade.getId(), fornecimentoEnergetico.getComunidadeId());
-        assertEquals(poloFornecedor.getId(), fornecimentoEnergetico.getPoloId());
-        assertEquals(1000L, fornecimentoEnergetico.getPopulacao());
+            CreateFornecimentoEnergeticoDto createFornecimentoEnergeticoDto = new CreateFornecimentoEnergeticoDto(comunidade.getId(), poloFornecedor.getId(), 1000L);
+            FornecimentoEnergetico fornecimentoEnergetico = fornecimentoEnergeticoService.createFornecimentoEnergetico(createFornecimentoEnergeticoDto);
+
+            assertNotNull(fornecimentoEnergetico);
+            assertNotNull(fornecimentoEnergetico.getId());
+            assertEquals(comunidade.getId(), fornecimentoEnergetico.getComunidadeId());
+            assertEquals(poloFornecedor.getId(), fornecimentoEnergetico.getPoloId());
+            assertEquals(1000L, fornecimentoEnergetico.getPopulacao());
+        });
     }
 
     @Test
-    public void testUpdateFornecimentoEnergetico() throws SQLException {
-        CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Eólica", "Energia obtida a partir dos ventos", null, "Renovável");
-        Energia energia = energiaService.createEnergia(createEnergiaDto);
+    void testUpdateFornecimentoEnergetico() {
 
-        assertNotNull(energia);
-        assertNotNull(energia.getId());
+        Assertions.assertDoesNotThrow(() -> {
+            CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Eólica", "Energia obtida a partir dos ventos", null, "Renovável");
+            Energia energia = energiaService.createEnergia(createEnergiaDto);
 
-        CreateFornecedorDto createFornecedorDto = new CreateFornecedorDto("Fornecedor B", "23456789012345", "Endereco B", "Descricao B");
-        Fornecedor fornecedor = fornecedorService.createFornecedor(createFornecedorDto);
+            assertNotNull(energia);
+            assertNotNull(energia.getId());
 
-        assertNotNull(fornecedor);
-        assertNotNull(fornecedor.getId());
+            CreateFornecedorDto createFornecedorDto = new CreateFornecedorDto("Fornecedor B", "23456789012345", "Endereco B", "Descricao B");
+            Fornecedor fornecedor = fornecedorService.createFornecedor(createFornecedorDto);
 
-        CreatePoloFornecedorDto createPoloFornecedorDto = new CreatePoloFornecedorDto("Polo B", "Endereco B", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 4000L);
-        PoloFornecedor poloFornecedor = fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
+            assertNotNull(fornecedor);
+            assertNotNull(fornecedor.getId());
 
-        assertNotNull(poloFornecedor);
-        assertNotNull(poloFornecedor.getId());
+            CreatePoloFornecedorDto createPoloFornecedorDto = new CreatePoloFornecedorDto("Polo B", "Endereco B", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 4000L);
+            PoloFornecedor poloFornecedor = fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
 
-        CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade B", "Endereco B", "Localizacao B", 20.0, 30.0, 3000L);
-        Comunidade comunidade = comunidadeService.createComunidade(createComunidadeDto);
+            assertNotNull(poloFornecedor);
+            assertNotNull(poloFornecedor.getId());
 
-        assertNotNull(comunidade);
-        assertNotNull(comunidade.getId());
+            CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade B", "Endereco B", "Localizacao B", 20.0, 30.0, 3000L);
+            Comunidade comunidade = comunidadeService.createComunidade(createComunidadeDto);
 
-        CreateFornecimentoEnergeticoDto createFornecimentoEnergeticoDto = new CreateFornecimentoEnergeticoDto(comunidade.getId(), poloFornecedor.getId(), 1500L);
-        FornecimentoEnergetico fornecimentoEnergetico = fornecimentoEnergeticoService.createFornecimentoEnergetico(createFornecimentoEnergeticoDto);
+            assertNotNull(comunidade);
+            assertNotNull(comunidade.getId());
 
-        UpdateFornecimentoEnergeticoDto updateFornecimentoEnergeticoDto = new UpdateFornecimentoEnergeticoDto(fornecimentoEnergetico.getId(), comunidade.getId(), poloFornecedor.getId(), 2000L);
-        FornecimentoEnergetico updatedFornecimentoEnergetico = fornecimentoEnergeticoService.updateFornecimentoEnergetico(updateFornecimentoEnergeticoDto);
+            CreateFornecimentoEnergeticoDto createFornecimentoEnergeticoDto = new CreateFornecimentoEnergeticoDto(comunidade.getId(), poloFornecedor.getId(), 1500L);
+            FornecimentoEnergetico fornecimentoEnergetico = fornecimentoEnergeticoService.createFornecimentoEnergetico(createFornecimentoEnergeticoDto);
 
-        assertNotNull(updatedFornecimentoEnergetico);
-        assertEquals(fornecimentoEnergetico.getId(), updatedFornecimentoEnergetico.getId());
-        assertEquals(comunidade.getId(), updatedFornecimentoEnergetico.getComunidadeId());
-        assertEquals(poloFornecedor.getId(), updatedFornecimentoEnergetico.getPoloId());
-        assertEquals(2000L, updatedFornecimentoEnergetico.getPopulacao());
+            UpdateFornecimentoEnergeticoDto updateFornecimentoEnergeticoDto = new UpdateFornecimentoEnergeticoDto(fornecimentoEnergetico.getId(), comunidade.getId(), poloFornecedor.getId(), 2000L);
+            FornecimentoEnergetico updatedFornecimentoEnergetico = fornecimentoEnergeticoService.updateFornecimentoEnergetico(updateFornecimentoEnergeticoDto);
+
+            assertNotNull(updatedFornecimentoEnergetico);
+            assertEquals(fornecimentoEnergetico.getId(), updatedFornecimentoEnergetico.getId());
+            assertEquals(comunidade.getId(), updatedFornecimentoEnergetico.getComunidadeId());
+            assertEquals(updateFornecimentoEnergeticoDto.id(), updatedFornecimentoEnergetico.getPoloId());
+            assertEquals(updateFornecimentoEnergeticoDto.populacao(), updatedFornecimentoEnergetico.getPopulacao());
+        });
     }
 
     @Test
-    public void testGetAllFornecimentosEnergeticos() throws SQLException {
-        List<FornecimentoEnergetico> fornecimentosEnergeticos = fornecimentoEnergeticoService.getAllFornecimentoEnergeticos();
+    void testGetAllFornecimentosEnergeticos() throws SQLException {
+        Assertions.assertDoesNotThrow(() -> {
+            List<FornecimentoEnergetico> fornecimentosEnergeticos = fornecimentoEnergeticoService.getAllFornecimentoEnergeticos();
 
-        assertNotNull(fornecimentosEnergeticos);
-        assertFalse(fornecimentosEnergeticos.isEmpty());
+            assertNotNull(fornecimentosEnergeticos);
+            assertFalse(fornecimentosEnergeticos.isEmpty());
+        });
     }
 
     @Test
-    public void testGetFornecimentoEnergeticoById() throws SQLException {
-        CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Hidrelétrica", "Energia obtida a partir da água", null, "Renovável");
-        Energia energia = energiaService.createEnergia(createEnergiaDto);
+    void testGetFornecimentoEnergeticoById() throws SQLException {
 
-        assertNotNull(energia);
-        assertNotNull(energia.getId());
+        Assertions.assertDoesNotThrow(() -> {
+            CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Hidrelétrica", "Energia obtida a partir da água", null, "Renovável");
+            Energia energia = energiaService.createEnergia(createEnergiaDto);
 
-        CreateFornecedorDto createFornecedorDto = new CreateFornecedorDto("Fornecedor C", "34567890123456", "Endereco C", "Descricao C");
-        Fornecedor fornecedor = fornecedorService.createFornecedor(createFornecedorDto);
+            assertNotNull(energia);
+            assertNotNull(energia.getId());
 
-        assertNotNull(fornecedor);
-        assertNotNull(fornecedor.getId());
+            CreateFornecedorDto createFornecedorDto = new CreateFornecedorDto("Fornecedor C", "34567890123456", "Endereco C", "Descricao C");
+            Fornecedor fornecedor = fornecedorService.createFornecedor(createFornecedorDto);
 
-        CreatePoloFornecedorDto createPoloFornecedorDto = new CreatePoloFornecedorDto("Polo C", "Endereco C", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 4000L);
-        PoloFornecedor poloFornecedor = fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
+            assertNotNull(fornecedor);
+            assertNotNull(fornecedor.getId());
 
-        assertNotNull(poloFornecedor);
-        assertNotNull(poloFornecedor.getId());
+            CreatePoloFornecedorDto createPoloFornecedorDto = new CreatePoloFornecedorDto("Polo C", "Endereco C", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 4000L);
+            PoloFornecedor poloFornecedor = fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
 
-        CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade C", "Endereco C", "Localizacao C", 10.0, 20.0, 2000L);
-        Comunidade comunidade = comunidadeService.createComunidade(createComunidadeDto);
+            assertNotNull(poloFornecedor);
+            assertNotNull(poloFornecedor.getId());
 
-        assertNotNull(comunidade);
-        assertNotNull(comunidade.getId());
+            CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade C", "Endereco C", "Localizacao C", 10.0, 20.0, 2000L);
+            Comunidade comunidade = comunidadeService.createComunidade(createComunidadeDto);
 
-        CreateFornecimentoEnergeticoDto createFornecimentoEnergeticoDto = new CreateFornecimentoEnergeticoDto(comunidade.getId(), poloFornecedor.getId(), 2500L);
-        FornecimentoEnergetico fornecimentoEnergetico = fornecimentoEnergeticoService.createFornecimentoEnergetico(createFornecimentoEnergeticoDto);
+            assertNotNull(comunidade);
+            assertNotNull(comunidade.getId());
 
-        FornecimentoEnergetico foundFornecimentoEnergetico = fornecimentoEnergeticoService.getFornecimentoEnergeticoById(fornecimentoEnergetico.getId());
+            CreateFornecimentoEnergeticoDto createFornecimentoEnergeticoDto = new CreateFornecimentoEnergeticoDto(comunidade.getId(), poloFornecedor.getId(), 2500L);
+            FornecimentoEnergetico fornecimentoEnergetico = fornecimentoEnergeticoService.createFornecimentoEnergetico(createFornecimentoEnergeticoDto);
 
-        assertNotNull(foundFornecimentoEnergetico);
-        assertEquals(fornecimentoEnergetico.getId(), foundFornecimentoEnergetico.getId());
+            FornecimentoEnergetico foundFornecimentoEnergetico = fornecimentoEnergeticoService.getFornecimentoEnergeticoById(fornecimentoEnergetico.getId());
+
+            assertNotNull(foundFornecimentoEnergetico);
+            assertEquals(fornecimentoEnergetico.getId(), foundFornecimentoEnergetico.getId());
+        });
     }
 
     @Test
-    public void testDeleteFornecimentoEnergetico() throws SQLException {
-        CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Geotérmica", "Energia obtida a partir do calor da Terra", null, "Renovável");
-        Energia energia = energiaService.createEnergia(createEnergiaDto);
+    void testDeleteFornecimentoEnergetico() {
+        Assertions.assertDoesNotThrow(() -> {
+            CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Geotérmica", "Energia obtida a partir do calor da Terra", null, "Renovável");
+            Energia energia = energiaService.createEnergia(createEnergiaDto);
 
-        assertNotNull(energia);
-        assertNotNull(energia.getId());
+            assertNotNull(energia);
+            assertNotNull(energia.getId());
 
-        CreateFornecedorDto createFornecedorDto = new CreateFornecedorDto("Fornecedor D", "45678901234567", "Endereco D", "Descricao D");
-        Fornecedor fornecedor = fornecedorService.createFornecedor(createFornecedorDto);
+            CreateFornecedorDto createFornecedorDto = new CreateFornecedorDto("Fornecedor D", "45678901234567", "Endereco D", "Descricao D");
+            Fornecedor fornecedor = fornecedorService.createFornecedor(createFornecedorDto);
 
-        assertNotNull(fornecedor);
-        assertNotNull(fornecedor.getId());
+            assertNotNull(fornecedor);
+            assertNotNull(fornecedor.getId());
 
-        CreatePoloFornecedorDto createPoloFornecedorDto = new CreatePoloFornecedorDto("Polo D", "Endereco D", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 4000L);
-        PoloFornecedor poloFornecedor = fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
+            CreatePoloFornecedorDto createPoloFornecedorDto = new CreatePoloFornecedorDto("Polo D", "Endereco D", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 4000L);
+            PoloFornecedor poloFornecedor = fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
 
-        assertNotNull(poloFornecedor);
-        assertNotNull(poloFornecedor.getId());
+            assertNotNull(poloFornecedor);
+            assertNotNull(poloFornecedor.getId());
 
-        CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade D", "Endereco D", "Localizacao D", 10.0, 20.0, 2000L);
-        Comunidade comunidade = comunidadeService.createComunidade(createComunidadeDto);
+            CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade D", "Endereco D", "Localizacao D", 10.0, 20.0, 2000L);
+            Comunidade comunidade = comunidadeService.createComunidade(createComunidadeDto);
 
-        assertNotNull(comunidade);
-        assertNotNull(comunidade.getId());
+            assertNotNull(comunidade);
+            assertNotNull(comunidade.getId());
 
-        CreateFornecimentoEnergeticoDto createFornecimentoEnergeticoDto = new CreateFornecimentoEnergeticoDto(comunidade.getId(), poloFornecedor.getId(), 3000L);
-        FornecimentoEnergetico fornecimentoEnergetico = fornecimentoEnergeticoService.createFornecimentoEnergetico(createFornecimentoEnergeticoDto);
+            CreateFornecimentoEnergeticoDto createFornecimentoEnergeticoDto = new CreateFornecimentoEnergeticoDto(comunidade.getId(), poloFornecedor.getId(), 3000L);
+            FornecimentoEnergetico fornecimentoEnergetico = fornecimentoEnergeticoService.createFornecimentoEnergetico(createFornecimentoEnergeticoDto);
 
-        fornecimentoEnergeticoService.deleteFornecimentoEnergetico(fornecimentoEnergetico.getId());
+            boolean result = fornecimentoEnergeticoService.deleteFornecimentoEnergetico(fornecimentoEnergetico.getId());
 
-        FornecimentoEnergetico deletedFornecimentoEnergetico = fornecimentoEnergeticoService.getFornecimentoEnergeticoById(fornecimentoEnergetico.getId());
-        assertNull(deletedFornecimentoEnergetico);
+            assertTrue(result);
+
+            FornecimentoEnergetico deletedFornecimentoEnergetico = fornecimentoEnergeticoService.getFornecimentoEnergeticoById(fornecimentoEnergetico.getId());
+            assertNull(deletedFornecimentoEnergetico);
+        });
     }
 
     @Test
-    public void testViewFornecimentoEnergetico() throws SQLException {
-        CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Biomassa", "Energia obtida a partir de matéria orgânica", null, "Renovável");
-        Energia energia = energiaService.createEnergia(createEnergiaDto);
+    void testViewFornecimentoEnergetico() {
+        Assertions.assertDoesNotThrow(() -> {
+            CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Biomassa", "Energia obtida a partir de matéria orgânica", null, "Renovável");
+            Energia energia = energiaService.createEnergia(createEnergiaDto);
 
-        assertNotNull(energia);
-        assertNotNull(energia.getId());
+            assertNotNull(energia);
+            assertNotNull(energia.getId());
 
-        CreateFornecedorDto createFornecedorDto = new CreateFornecedorDto("Fornecedor E", "56789012345678", "Endereco E", "Descricao E");
-        Fornecedor fornecedor = fornecedorService.createFornecedor(createFornecedorDto);
+            CreateFornecedorDto createFornecedorDto = new CreateFornecedorDto("Fornecedor E", "56789012345678", "Endereco E", "Descricao E");
+            Fornecedor fornecedor = fornecedorService.createFornecedor(createFornecedorDto);
 
-        assertNotNull(fornecedor);
-        assertNotNull(fornecedor.getId());
+            assertNotNull(fornecedor);
+            assertNotNull(fornecedor.getId());
 
-        CreatePoloFornecedorDto createPoloFornecedorDto = new CreatePoloFornecedorDto("Polo E", "Endereco E", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 4000L);
-        PoloFornecedor poloFornecedor = fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
+            CreatePoloFornecedorDto createPoloFornecedorDto = new CreatePoloFornecedorDto("Polo E", "Endereco E", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 4000L);
+            PoloFornecedor poloFornecedor = fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
 
-        assertNotNull(poloFornecedor);
-        assertNotNull(poloFornecedor.getId());
+            assertNotNull(poloFornecedor);
+            assertNotNull(poloFornecedor.getId());
 
-        CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade E", "Endereco E", "Localizacao E", 10.0, 20.0, 2000L);
-        Comunidade comunidade = comunidadeService.createComunidade(createComunidadeDto);
+            CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade E", "Endereco E", "Localizacao E", 10.0, 20.0, 2000L);
+            Comunidade comunidade = comunidadeService.createComunidade(createComunidadeDto);
 
-        assertNotNull(comunidade);
-        assertNotNull(comunidade.getId());
+            assertNotNull(comunidade);
+            assertNotNull(comunidade.getId());
 
-        CreateFornecimentoEnergeticoDto createFornecimentoEnergeticoDto = new CreateFornecimentoEnergeticoDto(comunidade.getId(), poloFornecedor.getId(), 3500L);
-        FornecimentoEnergetico fornecimentoEnergetico = fornecimentoEnergeticoService.createFornecimentoEnergetico(createFornecimentoEnergeticoDto);
+            CreateFornecimentoEnergeticoDto createFornecimentoEnergeticoDto = new CreateFornecimentoEnergeticoDto(comunidade.getId(), poloFornecedor.getId(), 3500L);
+            FornecimentoEnergetico fornecimentoEnergetico = fornecimentoEnergeticoService.createFornecimentoEnergetico(createFornecimentoEnergeticoDto);
 
-        FornecimentoEnergeticoResponse fornecimentoEnergeticoResponse = fornecimentoEnergeticoService.viewFornecimentoEnergetico(fornecimentoEnergetico.getId());
+            FornecimentoEnergeticoResponse fornecimentoEnergeticoResponse = fornecimentoEnergeticoService.viewFornecimentoEnergetico(fornecimentoEnergetico.getId());
 
-        assertNotNull(fornecimentoEnergeticoResponse);
-        assertEquals(fornecimentoEnergetico.getId(), fornecimentoEnergeticoResponse.id());
+            assertNotNull(fornecimentoEnergeticoResponse);
+            assertEquals(fornecimentoEnergetico.getId(), fornecimentoEnergeticoResponse.id());
+        });
     }
 
     @Test
-    public void testViewAllFornecimentosEnergeticos() throws SQLException {
-        List<FornecimentoEnergeticoResponse> fornecimentoEnergeticoResponses = fornecimentoEnergeticoService.viewAllFornecimentoEnergeticos();
+    void testViewAllFornecimentosEnergeticos() {
+        Assertions.assertDoesNotThrow(() -> {
+            List<FornecimentoEnergeticoResponse> fornecimentoEnergeticoResponses = fornecimentoEnergeticoService.viewAllFornecimentoEnergeticos();
 
-        assertNotNull(fornecimentoEnergeticoResponses);
-        assertFalse(fornecimentoEnergeticoResponses.isEmpty());
+            assertNotNull(fornecimentoEnergeticoResponses);
+            assertFalse(fornecimentoEnergeticoResponses.isEmpty());
+        });
     }
 }

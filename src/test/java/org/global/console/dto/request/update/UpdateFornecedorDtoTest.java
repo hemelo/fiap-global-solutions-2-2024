@@ -10,17 +10,17 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UpdateFornecedorDtoTest {
+class UpdateFornecedorDtoTest {
 
     @Test
-    public void testValidUpdateFornecedorDto() {
+    void testValidUpdateFornecedorDto() {
         UpdateFornecedorDto dto = new UpdateFornecedorDto(1L, "Nome", "CNPJ", "Endereco", "Descricao");
         Set<ConstraintViolation<UpdateFornecedorDto>> violations = ValidationUtils.validate(dto);
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    public void testInvalidUpdateFornecedorDto() {
+    void testInvalidUpdateFornecedorDto() {
         UpdateFornecedorDto dto = new UpdateFornecedorDto(2L, null, null, null, null);
         Set<ConstraintViolation<UpdateFornecedorDto>> violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());

@@ -10,17 +10,17 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LoginDtoTest {
+class LoginDtoTest {
 
     @Test
-    public void testValidLoginDto() {
+    void testValidLoginDto() {
         LoginDto dto = new LoginDto("username", "password");
         Set<ConstraintViolation<LoginDto>> violations = ValidationUtils.validate(dto);
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    public void testInvalidLoginDto() {
+    void testInvalidLoginDto() {
         LoginDto dto = new LoginDto(null, null);
         Set<ConstraintViolation<LoginDto>> violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());

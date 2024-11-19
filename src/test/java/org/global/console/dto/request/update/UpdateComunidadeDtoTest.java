@@ -10,17 +10,17 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UpdateComunidadeDtoTest {
+class UpdateComunidadeDtoTest {
 
     @Test
-    public void testValidUpdateComunidadeDto() {
+    void testValidUpdateComunidadeDto() {
         UpdateComunidadeDto dto = new UpdateComunidadeDto(1L, "Comunidade 1", "Descrição da Comunidade 1", "comunidade1", 10.0, 20.0, 25000L);
         Set<ConstraintViolation<UpdateComunidadeDto>> violations = ValidationUtils.validate(dto);
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    public void testInvalidUpdateComunidadeDto() {
+    void testInvalidUpdateComunidadeDto() {
         UpdateComunidadeDto dto = new UpdateComunidadeDto(2L, "Comunidade 2", "Descrição da Comunidade 2", "comunidade2", 10.0, 20.0, -25000L);
         Set<ConstraintViolation<UpdateComunidadeDto>> violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());

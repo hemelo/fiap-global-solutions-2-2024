@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UsuarioRepositoryTest {
+class UsuarioRepositoryTest {
 
     @Mock
     private DataSource dataSource;
@@ -42,20 +42,20 @@ public class UsuarioRepositoryTest {
     private Usuario usuario;
 
     @BeforeAll
-    public static void beginTransaction(@Mock DataSource dataSource, @Mock Connection connection) throws SQLException {
+    static void beginTransaction(@Mock DataSource dataSource, @Mock Connection connection) throws SQLException {
         when(dataSource.getConnection()).thenReturn(connection);
         connection.setAutoCommit(false);
     }
 
     @AfterAll
-    public static void rollbackTransaction(@Mock Connection connection) throws SQLException {
+    static void rollbackTransaction(@Mock Connection connection) throws SQLException {
         connection.rollback();
         connection.setAutoCommit(true);
     }
 
 
     @BeforeEach
-    public void setUp() throws SQLException {
+    void setUp() throws SQLException {
         usuario = Usuario.builder()
                 .login("testLogin")
                 .nome("Test User")
@@ -67,7 +67,7 @@ public class UsuarioRepositoryTest {
     }
 
     @Test
-    public void testSave() throws SQLException {
+    void testSave() throws SQLException {
         when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
 
         usuarioRepository.save(usuario);
@@ -76,14 +76,14 @@ public class UsuarioRepositoryTest {
     }
 
     @Test
-    public void testSaveException() throws SQLException {
+    void testSaveException() throws SQLException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException("Database error"));
 
         assertThrows(SQLException.class, () -> usuarioRepository.save(usuario));
     }
 
     @Test
-    public void testFindByEmail() throws SQLException {
+    void testFindByEmail() throws SQLException {
         when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true);
@@ -99,14 +99,14 @@ public class UsuarioRepositoryTest {
     }
 
     @Test
-    public void testFindByEmailException() throws SQLException {
+    void testFindByEmailException() throws SQLException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException("Database error"));
 
         assertThrows(SQLException.class, () -> usuarioRepository.findByEmail("test@example.com"));
     }
 
     @Test
-    public void testFindByLogin() throws SQLException {
+    void testFindByLogin() throws SQLException {
         when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true);
@@ -122,14 +122,14 @@ public class UsuarioRepositoryTest {
     }
 
     @Test
-    public void testFindByLoginException() throws SQLException {
+    void testFindByLoginException() throws SQLException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException("Database error"));
 
         assertThrows(SQLException.class, () -> usuarioRepository.findByLogin("testLogin"));
     }
 
     @Test
-    public void testUpdate() throws SQLException {
+    void testUpdate() throws SQLException {
         when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
 
         usuarioRepository.update(usuario);
@@ -138,14 +138,14 @@ public class UsuarioRepositoryTest {
     }
 
     @Test
-    public void testUpdateException() throws SQLException {
+    void testUpdateException() throws SQLException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException("Database error"));
 
         assertThrows(SQLException.class, () -> usuarioRepository.update(usuario));
     }
 
     @Test
-    public void testDelete() throws SQLException {
+    void testDelete() throws SQLException {
         when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
 
         usuarioRepository.delete("testLogin");
@@ -154,14 +154,14 @@ public class UsuarioRepositoryTest {
     }
 
     @Test
-    public void testDeleteException() throws SQLException {
+    void testDeleteException() throws SQLException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException("Database error"));
 
         assertThrows(SQLException.class, () -> usuarioRepository.delete("testLogin"));
     }
 
     @Test
-    public void testFindAll() throws SQLException {
+    void testFindAll() throws SQLException {
         when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true, false);
@@ -177,7 +177,7 @@ public class UsuarioRepositoryTest {
     }
 
     @Test
-    public void testFindAllException() throws SQLException {
+    void testFindAllException() throws SQLException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException("Database error"));
 
         assertThrows(SQLException.class, () -> usuarioRepository.findAll());

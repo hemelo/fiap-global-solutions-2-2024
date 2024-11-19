@@ -13,18 +13,18 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UpdateEnergiaDtoTest {
+class UpdateEnergiaDtoTest {
 
 
     @Test
-    public void testValidUpdateEnergiaDto() {
+    void testValidUpdateEnergiaDto() {
         UpdateEnergiaDto dto = new UpdateEnergiaDto(1L, "Valid Name", "Valid Description", null, "Valid Type");
         Set<ConstraintViolation<UpdateEnergiaDto>> violations = ValidationUtils.validate(dto);
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    public void testInvalidUpdateEnergiaDto() {
+    void testInvalidUpdateEnergiaDto() {
         UpdateEnergiaDto dto = new UpdateEnergiaDto(null, null, null, null, null);
         Set<ConstraintViolation<UpdateEnergiaDto>> violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());

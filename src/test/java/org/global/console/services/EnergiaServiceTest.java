@@ -17,98 +17,118 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class EnergiaServiceTest {
+class EnergiaServiceTest {
 
     private EnergiaService energiaService;
 
     @BeforeAll
-    public void setUp() {
+    void setUp() {
         energiaService = EnergiaService.getInstance();
 
         energiaService.getEnergiaRepository().truncate();
     }
 
     @AfterAll
-    public void tearDown() {
+    void tearDown() {
         energiaService.getEnergiaRepository().truncate();
     }
 
     @Test
-    public void testCreateEnergia() throws SQLException {
-        CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Solar", "Energia obtida a partir do sol", null,"Solar");
-        Energia energia = energiaService.createEnergia(createEnergiaDto);
+    void testCreateEnergia() {
+        Assertions.assertDoesNotThrow(() -> {
+            CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Solar", "Energia obtida a partir do sol", null, "Solar");
+            Energia energia = energiaService.createEnergia(createEnergiaDto);
 
-        assertNotNull(energia);
-        assertNotNull(energia.getId());
-        assertEquals("Energia Solar", energia.getNome());
-        assertEquals("Energia obtida a partir do sol", energia.getDescricao());
-        assertEquals("Solar", energia.getTipo());
+            assertNotNull(energia);
+            assertNotNull(energia.getId());
+            assertEquals(createEnergiaDto.nome(), energia.getNome());
+            assertEquals(createEnergiaDto.descricao(), energia.getDescricao());
+            assertEquals(createEnergiaDto.tipo(), energia.getTipo());
+        });
     }
 
     @Test
-    public void testUpdateEnergia() throws SQLException {
-        CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Eólica", "Energia obtida a partir do vento", null, "Eólica");
-        Energia createdEnergia = energiaService.createEnergia(createEnergiaDto);
+    void testUpdateEnergia() {
+        Assertions.assertDoesNotThrow(() -> {
+            CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Eólica", "Energia obtida a partir do vento", null, "Eólica");
+            Energia createdEnergia = energiaService.createEnergia(createEnergiaDto);
 
-        UpdateEnergiaDto updateEnergiaDto = new UpdateEnergiaDto(createdEnergia.getId(), "Energia Eólica Atualizada", "Energia obtida a partir do vento atualizada", null, "Eólica");
-        Energia updatedEnergia = energiaService.updateEnergia(updateEnergiaDto);
+            assertNotNull(createdEnergia);
+            assertNotNull(createdEnergia.getId());
 
-        assertNotNull(updatedEnergia);
-        assertEquals("Energia Eólica Atualizada", updatedEnergia.getNome());
-        assertEquals("Energia obtida a partir do vento atualizada", updatedEnergia.getDescricao());
-        assertEquals("Eólica", updatedEnergia.getTipo());
+            UpdateEnergiaDto updateEnergiaDto = new UpdateEnergiaDto(createdEnergia.getId(), "Energia Eólica Atualizada", "Energia obtida a partir do vento atualizada", null, "Eólica");
+            Energia updatedEnergia = energiaService.updateEnergia(updateEnergiaDto);
+
+            assertNotNull(updatedEnergia);
+            assertEquals(updateEnergiaDto.nome(), updatedEnergia.getNome());
+            assertEquals(updateEnergiaDto.descricao(), updatedEnergia.getDescricao());
+            assertEquals(updateEnergiaDto.tipo(), updatedEnergia.getTipo());
+        });
     }
 
     @Test
-    public void testGetAllEnergias() throws SQLException {
-        List<Energia> energias = energiaService.getAllEnergias();
+    void testGetAllEnergias() {
+        Assertions.assertDoesNotThrow(() -> {
+            List<Energia> energias = energiaService.getAllEnergias();
 
-        assertNotNull(energias);
-        assertFalse(energias.isEmpty());
+            assertNotNull(energias);
+            assertFalse(energias.isEmpty());
+        });
     }
 
     @Test
-    public void testGetEnergiaById() throws SQLException {
-        CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Hidrelétrica", "Energia obtida a partir da água", null, "Hidrelétrica");
-        Energia createdEnergia = energiaService.createEnergia(createEnergiaDto);
+    void testGetEnergiaById() {
+        Assertions.assertDoesNotThrow(() -> {
+            CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Hidrelétrica", "Energia obtida a partir da água", null, "Hidrelétrica");
+            Energia createdEnergia = energiaService.createEnergia(createEnergiaDto);
 
-        Energia foundEnergia = energiaService.getEnergiaById(createdEnergia.getId());
+            Energia foundEnergia = energiaService.getEnergiaById(createdEnergia.getId());
 
-        assertNotNull(foundEnergia);
-        assertEquals(createdEnergia.getId(), foundEnergia.getId());
+            assertNotNull(foundEnergia);
+            assertEquals(createdEnergia.getId(), foundEnergia.getId());
+        });
     }
 
     @Test
-    public void testViewAllEnergias() throws SQLException {
-        List<EnergiaResponse> energiaResponses = energiaService.viewAllEnergias();
+    void testViewAllEnergias() {
+        Assertions.assertDoesNotThrow(() -> {
+            List<EnergiaResponse> energiaResponses = energiaService.viewAllEnergias();
 
-        assertNotNull(energiaResponses);
-        assertFalse(energiaResponses.isEmpty());
+            assertNotNull(energiaResponses);
+            assertFalse(energiaResponses.isEmpty());
+        });
     }
 
     @Test
-    public void testViewEnergia() throws SQLException {
-        CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Geotérmica", "Energia obtida a partir do calor da Terra", null,"Geotérmica");
-        Energia createdEnergia = energiaService.createEnergia(createEnergiaDto);
+    void testViewEnergia() {
+        Assertions.assertDoesNotThrow(() -> {
+            CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Geotérmica", "Energia obtida a partir do calor da Terra", null, "Geotérmica");
+            Energia createdEnergia = energiaService.createEnergia(createEnergiaDto);
 
-        EnergiaResponse energiaResponse = energiaService.viewEnergia(createdEnergia.getId());
+            EnergiaResponse energiaResponse = energiaService.viewEnergia(createdEnergia.getId());
 
-        assertNotNull(energiaResponse);
-        assertEquals(createdEnergia.getId(), energiaResponse.id());
-        assertEquals("Energia Geotérmica", energiaResponse.nome());
-        assertEquals("Energia obtida a partir do calor da Terra", energiaResponse.descricao());
-        assertEquals("Geotérmica", energiaResponse.tipo());
+            assertNotNull(energiaResponse);
+            assertEquals(createdEnergia.getId(), energiaResponse.id());
+            assertEquals(createdEnergia.getNome(), energiaResponse.nome());
+            assertEquals(createdEnergia.getDescricao(), energiaResponse.descricao());
+            assertEquals(createdEnergia.getTipo(), energiaResponse.tipo());
+        });
     }
 
     @Test
-    public void testDeleteEnergia() throws SQLException {
-        CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Nuclear", "Energia obtida a partir de reações nucleares", null,"Nuclear");
-        Energia createdEnergia = energiaService.createEnergia(createEnergiaDto);
+    void testDeleteEnergia() {
 
-        energiaService.deleteEnergia(createdEnergia.getId());
+        Assertions.assertDoesNotThrow(() -> {
+            CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Nuclear", "Energia obtida a partir de reações nucleares", null, "Nuclear");
+            Energia createdEnergia = energiaService.createEnergia(createEnergiaDto);
 
-        Energia deletedEnergia = energiaService.getEnergiaById(createdEnergia.getId());
-        assertNull(deletedEnergia);
+            boolean result = energiaService.deleteEnergia(createdEnergia.getId());
+
+            assertTrue(result);
+
+            Energia deletedEnergia = energiaService.getEnergiaById(createdEnergia.getId());
+            assertNull(deletedEnergia);
+        });
     }
 
 }

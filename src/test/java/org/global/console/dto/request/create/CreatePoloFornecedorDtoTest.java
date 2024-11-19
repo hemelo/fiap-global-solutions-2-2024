@@ -9,17 +9,17 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CreatePoloFornecedorDtoTest {
+class CreatePoloFornecedorDtoTest {
 
     @Test
-    public void testValidCreatePoloFornecedorDto() {
+    void testValidCreatePoloFornecedorDto() {
         CreatePoloFornecedorDto dto = new CreatePoloFornecedorDto("Nome", "Endereço", 10.0, 20.0, 25L, 1L, 20L, 40L);
         Set<ConstraintViolation<CreatePoloFornecedorDto>> violations = ValidationUtils.validate(dto);
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    public void testInvalidCreatePoloFornecedorDto() {
+    void testInvalidCreatePoloFornecedorDto() {
         CreatePoloFornecedorDto dto = new CreatePoloFornecedorDto(null, "Endereço", 10.0, 20.0, 25L, 1L, 20L, 40L);
         Set<ConstraintViolation<CreatePoloFornecedorDto>> violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());

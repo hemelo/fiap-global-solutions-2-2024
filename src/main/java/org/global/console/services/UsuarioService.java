@@ -1,5 +1,6 @@
 package org.global.console.services;
 
+import lombok.Getter;
 import org.global.console.dto.Sessao;
 import org.global.console.dto.request.create.CreateUserDto;
 import org.global.console.dto.request.LoginDto;
@@ -23,7 +24,9 @@ import java.util.stream.Collectors;
 public class UsuarioService {
     private static UsuarioService instance;
 
+    @Getter
     private final UsuarioRepository usuarioRepository;
+
     private final LogRepository logRepository;
 
     private UsuarioService() {
@@ -71,8 +74,8 @@ public class UsuarioService {
         return usuarioRepository.findByLogin(login);
     }
 
-    public void deleteUser(String login) throws SQLException {
-        usuarioRepository.delete(login);
+    public boolean deleteUser(String login) throws SQLException {
+        return usuarioRepository.delete(login);
     }
 
     public Sessao login(LoginDto loginDto) throws SQLException {

@@ -12,106 +12,122 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ComunidadeServiceTest {
+class ComunidadeServiceTest {
 
     private ComunidadeService comunidadeService;
 
     @BeforeAll
-    public void setUp() {
+    void setUp() {
         comunidadeService = ComunidadeService.getInstance();
 
         comunidadeService.getComunidadeRepository().truncate();
     }
 
     @AfterAll
-    public void tearDown() {
+    void tearDown() {
         comunidadeService.getComunidadeRepository().truncate();
     }
 
     @Test
-    public void testCreateComunidade() throws SQLException {
-        CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade A", "Descrição A", "Localização A", 10.0, 20.0, 1000L);
-        Comunidade comunidade = comunidadeService.createComunidade(createComunidadeDto);
+    void testCreateComunidade() {
+        Assertions.assertDoesNotThrow(() -> {
+            CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade A", "Descrição A", "Localização A", 10.0, 20.0, 1000L);
+            Comunidade comunidade = comunidadeService.createComunidade(createComunidadeDto);
 
-        assertNotNull(comunidade);
-        assertNotNull(comunidade.getId());
-        assertEquals("Comunidade A", comunidade.getNome());
-        assertEquals("Localização A", comunidade.getLocalizacao());
-        assertEquals("Descrição A", comunidade.getDescricao());
-        assertEquals(10.0, comunidade.getLatitude());
-        assertEquals(20.0, comunidade.getLongitude());
-        assertEquals(1000L, comunidade.getPopulacao());
+            assertNotNull(comunidade);
+            assertNotNull(comunidade.getId());
+            assertEquals(createComunidadeDto.nome(), comunidade.getNome());
+            assertEquals(createComunidadeDto.localizacao(), comunidade.getLocalizacao());
+            assertEquals(createComunidadeDto.descricao(), comunidade.getDescricao());
+            assertEquals(createComunidadeDto.latitude(), comunidade.getLatitude());
+            assertEquals(createComunidadeDto.longitude(), comunidade.getLongitude());
+            assertEquals(createComunidadeDto.populacao(), comunidade.getPopulacao());
+        });
     }
 
     @Test
-    public void testUpdateComunidade() throws SQLException {
-        CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade B", "Descrição B", "Localização B", 15.0, 25.0, 2000L);
-        Comunidade createdComunidade = comunidadeService.createComunidade(createComunidadeDto);
+    void testUpdateComunidade() {
+        Assertions.assertDoesNotThrow(() -> {
+            CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade B", "Descrição B", "Localização B", 15.0, 25.0, 2000L);
+            Comunidade createdComunidade = comunidadeService.createComunidade(createComunidadeDto);
 
-        UpdateComunidadeDto updateComunidadeDto = new UpdateComunidadeDto(createdComunidade.getId(), "Comunidade B Atualizada", "Descrição B Atualizada", "Localização B Atualizada", 15.5, 25.5, 2500L);
-        Comunidade updatedComunidade = comunidadeService.updateComunidade(updateComunidadeDto);
+            UpdateComunidadeDto updateComunidadeDto = new UpdateComunidadeDto(createdComunidade.getId(), "Comunidade B Atualizada", "Descrição B Atualizada", "Localização B Atualizada", 15.5, 25.5, 2500L);
+            Comunidade updatedComunidade = comunidadeService.updateComunidade(updateComunidadeDto);
 
-        assertNotNull(updatedComunidade);
-        assertEquals("Comunidade B Atualizada", updatedComunidade.getNome());
-        assertEquals("Localização B Atualizada", updatedComunidade.getLocalizacao());
-        assertEquals("Descrição B Atualizada", updatedComunidade.getDescricao());
-        assertEquals(15.5, updatedComunidade.getLatitude());
-        assertEquals(25.5, updatedComunidade.getLongitude());
-        assertEquals(2500L, updatedComunidade.getPopulacao());
+            assertNotNull(updatedComunidade);
+            assertEquals(updateComunidadeDto.nome(), updatedComunidade.getNome());
+            assertEquals(updateComunidadeDto.localizacao(), updatedComunidade.getLocalizacao());
+            assertEquals(updateComunidadeDto.descricao(), updatedComunidade.getDescricao());
+            assertEquals(updateComunidadeDto.latitude(), updatedComunidade.getLatitude());
+            assertEquals(updateComunidadeDto.longitude(), updatedComunidade.getLongitude());
+            assertEquals(updateComunidadeDto.populacao(), updatedComunidade.getPopulacao());
+        });
     }
 
     @Test
-    public void testGetAllComunidades() throws SQLException {
-        List<Comunidade> comunidades = comunidadeService.getAllComunidades();
+    void testGetAllComunidades() {
+        Assertions.assertDoesNotThrow(() -> {
+            List<Comunidade> comunidades = comunidadeService.getAllComunidades();
 
-        assertNotNull(comunidades);
-        assertFalse(comunidades.isEmpty());
+            assertNotNull(comunidades);
+            assertFalse(comunidades.isEmpty());
+        });
     }
 
     @Test
-    public void testGetComunidadeById() throws SQLException {
-        CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade C", "Descrição C", "Localização C", 20.0, 30.0, 3000L);
-        Comunidade createdComunidade = comunidadeService.createComunidade(createComunidadeDto);
+    void testGetComunidadeById() {
+        Assertions.assertDoesNotThrow(() -> {
+            CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade C", "Descrição C", "Localização C", 20.0, 30.0, 3000L);
+            Comunidade createdComunidade = comunidadeService.createComunidade(createComunidadeDto);
 
-        Comunidade foundComunidade = comunidadeService.getComunidadeById(createdComunidade.getId());
+            Comunidade foundComunidade = comunidadeService.getComunidadeById(createdComunidade.getId());
 
-        assertNotNull(foundComunidade);
-        assertEquals(createdComunidade.getId(), foundComunidade.getId());
+            assertNotNull(foundComunidade);
+            assertEquals(createdComunidade.getId(), foundComunidade.getId());
+        });
     }
 
     @Test
-    public void testViewAllComunidades() throws SQLException {
-        List<ComunidadeResponse> comunidadeResponses = comunidadeService.viewAllComunidades();
+    void testViewAllComunidades() {
+        Assertions.assertDoesNotThrow(() -> {
+            List<ComunidadeResponse> comunidadeResponses = comunidadeService.viewAllComunidades();
 
-        assertNotNull(comunidadeResponses);
-        assertFalse(comunidadeResponses.isEmpty());
+            assertNotNull(comunidadeResponses);
+            assertFalse(comunidadeResponses.isEmpty());
+        });
     }
 
     @Test
-    public void testViewComunidade() throws SQLException {
-        CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade D", "Descrição D", "Localização D", 25.0, 35.0, 4000L);
-        Comunidade createdComunidade = comunidadeService.createComunidade(createComunidadeDto);
+    void testViewComunidade() {
+        Assertions.assertDoesNotThrow(() -> {
+            CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade D", "Descrição D", "Localização D", 25.0, 35.0, 4000L);
+            Comunidade createdComunidade = comunidadeService.createComunidade(createComunidadeDto);
 
-        ComunidadeResponse comunidadeResponse = comunidadeService.viewComunidade(createdComunidade.getId());
+            ComunidadeResponse comunidadeResponse = comunidadeService.viewComunidade(createdComunidade.getId());
 
-        assertNotNull(comunidadeResponse);
-        assertEquals(createdComunidade.getId(), comunidadeResponse.id());
-        assertEquals("Comunidade D", comunidadeResponse.nome());
-        assertEquals("Localização D", comunidadeResponse.localizacao());
-        assertEquals("Descrição D", comunidadeResponse.descricao());
-        assertEquals(25.0, comunidadeResponse.latitude());
-        assertEquals(35.0, comunidadeResponse.longitude());
-        assertEquals(4000L, comunidadeResponse.populacao());
+            assertNotNull(comunidadeResponse);
+            assertEquals(createdComunidade.getId(), comunidadeResponse.id());
+            assertEquals(createdComunidade.getNome(), comunidadeResponse.nome());
+            assertEquals(createdComunidade.getLocalizacao(), comunidadeResponse.localizacao());
+            assertEquals(createdComunidade.getDescricao(), comunidadeResponse.descricao());
+            assertEquals(createdComunidade.getLatitude(), comunidadeResponse.latitude());
+            assertEquals(createdComunidade.getLongitude(), comunidadeResponse.longitude());
+            assertEquals(createdComunidade.getPopulacao(), comunidadeResponse.populacao());
+        });
     }
 
     @Test
-    public void testDeleteComunidade() throws SQLException {
-        CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade E", "Descrição E", "Localização E", 30.0, 40.0, 5000L);
-        Comunidade createdComunidade = comunidadeService.createComunidade(createComunidadeDto);
+    void testDeleteComunidade() {
+        Assertions.assertDoesNotThrow(() -> {
+            CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade E", "Descrição E", "Localização E", 30.0, 40.0, 5000L);
+            Comunidade createdComunidade = comunidadeService.createComunidade(createComunidadeDto);
 
-        comunidadeService.deleteComunidade(createdComunidade.getId());
+            boolean result = comunidadeService.deleteComunidade(createdComunidade.getId());
 
-        Comunidade deletedComunidade = comunidadeService.getComunidadeById(createdComunidade.getId());
-        assertNull(deletedComunidade);
+            assertTrue(result);
+
+            Comunidade deletedComunidade = comunidadeService.getComunidadeById(createdComunidade.getId());
+            assertNull(deletedComunidade);
+        });
     }
 }

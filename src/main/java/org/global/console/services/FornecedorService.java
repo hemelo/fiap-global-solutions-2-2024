@@ -80,8 +80,8 @@ public class FornecedorService {
         return fornecedorRepository.findById(id);
     }
 
-    public void deleteFornecedor(Long id) throws SQLException {
-        fornecedorRepository.delete(id);
+    public Boolean deleteFornecedor(Long id) throws SQLException {
+         return fornecedorRepository.delete(id);
     }
 
     public PoloFornecedor createPoloFornecedor(CreatePoloFornecedorDto createPoloFornecedorDto) throws SQLException {
@@ -130,8 +130,8 @@ public class FornecedorService {
         return poloFornecedorRepository.findByFornecedorId(fornecedorId);
     }
 
-    public void deletePoloFornecedor(Long id) throws SQLException {
-        poloFornecedorRepository.delete(id);
+    public boolean deletePoloFornecedor(Long id) throws SQLException {
+        return poloFornecedorRepository.delete(id);
     }
 
     public FornecedorResponse viewFornecedor(Long id) throws SQLException {

@@ -9,10 +9,10 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CommandUtilsTest {
+class CommandUtilsTest {
 
     @Test
-    public void testGetAllCommands() {
+    void testGetAllCommands() {
         assertDoesNotThrow(() -> {
             Set<Class<? extends Command>> commands = CommandUtils.getAllCommands();
             assertNotNull(commands);
@@ -20,7 +20,7 @@ public class CommandUtilsTest {
     }
 
     @Test
-    public void testGetCommandClass() {
+    void testGetCommandClass() {
         assertDoesNotThrow(() -> {
             Class<? extends Command> commandClass = CommandUtils.getCommandClass("help");
             assertNotNull(commandClass);
@@ -28,7 +28,7 @@ public class CommandUtilsTest {
     }
 
     @Test
-    public void testGetCommandInstanceByName() {
+    void testGetCommandInstanceByName() {
         assertDoesNotThrow(() -> {
             Command command = CommandUtils.getCommandInstance("help");
             assertNotNull(command);
@@ -36,7 +36,7 @@ public class CommandUtilsTest {
     }
 
     @Test
-    public void testGetCommandInstanceByClass() {
+    void testGetCommandInstanceByClass() {
         assertDoesNotThrow(() -> {
             Class<? extends Command> commandClass = CommandUtils.getCommandClass("help");
             Command command = CommandUtils.getCommandInstance(commandClass);
@@ -45,7 +45,7 @@ public class CommandUtilsTest {
     }
 
     @Test
-    public void testGetCommandName() {
+    void testGetCommandName() {
         assertDoesNotThrow(() -> {
             Class<? extends Command> commandClass = CommandUtils.getCommandClass("help");
             String commandName = CommandUtils.getCommandName(commandClass);
@@ -54,7 +54,7 @@ public class CommandUtilsTest {
     }
 
     @Test
-    public void testGetAllCommandsInstances() {
+    void testGetAllCommandsInstances() {
         assertDoesNotThrow(() -> {
             var commandsInstances = CommandUtils.getAllCommandsInstances();
             assertNotNull(commandsInstances);
@@ -64,7 +64,7 @@ public class CommandUtilsTest {
     }
 
     @Test
-    public void testCreateSyntax() {
+    void testCreateSyntax() {
         assertDoesNotThrow(() -> {
             String syntax = CommandUtils.createSyntax("test", List.of("option1"), List.of("option2"));
             assertNotNull(syntax);
@@ -82,7 +82,7 @@ public class CommandUtilsTest {
     }
 
     @Test
-    public void testLoadCommands() {
+    void testLoadCommands() {
         assertDoesNotThrow(() -> {
             Map<String, Class<? extends Command>> commands = CommandUtils.loadCommands();
             assertNotNull(commands);

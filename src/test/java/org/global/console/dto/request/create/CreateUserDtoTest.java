@@ -13,24 +13,24 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CreateUserDtoTest {
+class CreateUserDtoTest {
 
     @Test
-    public void testValidCreateUserDto() {
+    void testValidCreateUserDto() {
         CreateUserDto dto = new CreateUserDto("login", "name", "email@gmail.com", "password");
         Set<ConstraintViolation<CreateUserDto>> violations = ValidationUtils.validate(dto);
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    public void testInvalidEmailCreateUserDto() {
+    void testInvalidEmailCreateUserDto() {
         CreateUserDto dto = new CreateUserDto("login", "name", "email", "password");
         Set<ConstraintViolation<CreateUserDto>> violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());
     }
 
     @Test
-    public void testInvalidCreateUserDto() {
+    void testInvalidCreateUserDto() {
         CreateUserDto dto = new CreateUserDto("", "", "", "");
         Set<ConstraintViolation<CreateUserDto>> violations = ValidationUtils.validate(dto);
         assertFalse(violations.isEmpty());
