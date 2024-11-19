@@ -5,8 +5,6 @@ import org.jline.keymap.KeyMap;
 import org.jline.reader.LineReader;
 import org.jline.reader.Reference;
 import org.jline.widget.Widgets;
-import static org.jline.keymap.KeyMap.ctrl;
-import static org.jline.keymap.KeyMap.alt;
 
 public class SkipWidget extends Widgets {
 

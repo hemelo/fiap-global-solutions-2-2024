@@ -1,6 +1,5 @@
 package org.global.console.cli.commands;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.global.console.Main;
 import org.global.console.dto.Sessao;
 import org.global.console.dto.request.LoginDto;
@@ -8,7 +7,6 @@ import org.global.console.services.UsuarioService;
 import org.global.console.utils.CommandUtils;
 import org.global.console.utils.ConsoleUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LoginCommand implements Command {

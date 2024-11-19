@@ -2,7 +2,6 @@ package org.global.console.infra;
 
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
-import org.flywaydb.core.internal.database.base.Database;
 import org.global.console.exceptions.SistemaException;
 import org.global.console.properties.DatabaseProperties;
 

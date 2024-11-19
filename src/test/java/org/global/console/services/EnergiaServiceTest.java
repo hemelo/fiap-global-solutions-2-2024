@@ -3,18 +3,12 @@ package org.global.console.services;
 import org.global.console.dto.request.create.CreateEnergiaDto;
 import org.global.console.dto.request.update.UpdateEnergiaDto;
 import org.global.console.dto.response.EnergiaResponse;
-import org.global.console.infra.DataSource;
 import org.global.console.model.Energia;
-import org.global.console.services.EnergiaService;
 import org.junit.jupiter.api.*;
-import org.mockito.Mock;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class EnergiaServiceTest {

@@ -2,8 +2,8 @@ package org.global.console.services;
 
 import lombok.Getter;
 import org.global.console.dto.Sessao;
-import org.global.console.dto.request.create.CreateUserDto;
 import org.global.console.dto.request.LoginDto;
+import org.global.console.dto.request.create.CreateUserDto;
 import org.global.console.dto.request.update.UpdateUserDto;
 import org.global.console.dto.response.UsuarioResponse;
 import org.global.console.model.Usuario;

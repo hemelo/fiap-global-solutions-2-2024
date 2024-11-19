@@ -1,11 +1,9 @@
 package org.global.console.cli.commands;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.global.console.Main;
 import org.global.console.utils.CommandUtils;
 import org.global.console.utils.ConsoleUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LogoutCommand implements Command {

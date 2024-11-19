@@ -1,7 +1,6 @@
 package org.global.console.cli.commands;
 
 import jakarta.validation.ConstraintViolation;
-import org.apache.commons.lang3.tuple.Pair;
 import org.global.console.Main;
 import org.global.console.dto.request.create.CreateUserDto;
 import org.global.console.services.UsuarioService;
@@ -10,7 +9,10 @@ import org.global.console.utils.ConsoleUtils;
 import org.global.console.utils.ValidationUtils;
 import org.jline.reader.LineReader;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 public class RegisterCommand implements Command {
     @Override

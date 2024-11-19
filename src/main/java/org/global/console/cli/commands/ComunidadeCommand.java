@@ -2,7 +2,6 @@ package org.global.console.cli.commands;
 
 import jakarta.validation.ConstraintViolation;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.global.console.Main;
 import org.global.console.dto.request.create.CreateComunidadeDto;
 import org.global.console.dto.request.update.UpdateComunidadeDto;
@@ -16,7 +15,10 @@ import org.jline.builtins.Completers;
 import org.jline.reader.LineReader;
 import org.jline.reader.impl.completer.StringsCompleter;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 public class ComunidadeCommand implements Command {
     @Override

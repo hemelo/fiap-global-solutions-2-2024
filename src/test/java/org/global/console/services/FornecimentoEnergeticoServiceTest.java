@@ -4,10 +4,10 @@ import org.global.console.dto.request.create.*;
 import org.global.console.dto.request.update.UpdateFornecimentoEnergeticoDto;
 import org.global.console.dto.response.FornecimentoEnergeticoResponse;
 import org.global.console.model.*;
+import org.junit.jupiter.api.*;
 
 import java.sql.SQLException;
 import java.util.List;
-import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -5,7 +5,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.global.console.Main;
 import org.global.console.cli.commands.*;
-import org.global.console.dto.request.update.UpdateComunidadeDto;
 import org.global.console.exceptions.AutenticacaoException;
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;

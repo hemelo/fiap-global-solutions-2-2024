@@ -1,7 +1,6 @@
 package org.global.console.dto.request.create;
 
 import jakarta.validation.ConstraintViolation;
-import org.global.console.dto.request.update.UpdateFornecedorDto;
 import org.global.console.utils.ValidationUtils;
 import org.junit.jupiter.api.Test;
 

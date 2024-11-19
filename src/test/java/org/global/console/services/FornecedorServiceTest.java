@@ -10,10 +10,8 @@ import org.global.console.dto.response.PoloFornecedorResponse;
 import org.global.console.model.Energia;
 import org.global.console.model.Fornecedor;
 import org.global.console.model.PoloFornecedor;
-import org.global.console.services.FornecedorService;
 import org.junit.jupiter.api.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,13 +1,9 @@
 package org.global.console.dto.request.update;
 
+import jakarta.validation.ConstraintViolation;
 import org.global.console.utils.ValidationUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
-import jakarta.validation.ConstraintViolation;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

@@ -1,7 +1,6 @@
 package org.global.console.model;
 
 import lombok.*;
-import org.global.console.enums.UnidadeMedida;
 
 import java.time.LocalDateTime;
 

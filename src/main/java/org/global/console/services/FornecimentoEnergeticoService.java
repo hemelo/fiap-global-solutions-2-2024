@@ -4,13 +4,11 @@ import lombok.Getter;
 import org.global.console.dto.request.create.CreateFornecimentoEnergeticoDto;
 import org.global.console.dto.request.update.UpdateFornecimentoEnergeticoDto;
 import org.global.console.dto.response.*;
-import org.global.console.model.Comunidade;
 import org.global.console.model.FornecimentoEnergetico;
 import org.global.console.model.PoloFornecedor;
 import org.global.console.repository.FornecimentoEnergeticoRepository;
 import org.global.console.repository.LogRepository;
 
-import javax.swing.text.html.Option;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

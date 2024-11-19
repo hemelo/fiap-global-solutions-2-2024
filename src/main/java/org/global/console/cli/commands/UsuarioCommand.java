@@ -3,7 +3,6 @@ package org.global.console.cli.commands;
 import jakarta.validation.ConstraintViolation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.global.console.Main;
 import org.global.console.dto.request.create.CreateUserDto;
 import org.global.console.dto.request.update.UpdateUserDto;

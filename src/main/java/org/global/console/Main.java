@@ -1,8 +1,5 @@
 package org.global.console;
 
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.global.console.cli.Introduction;
@@ -16,16 +13,12 @@ import org.global.console.utils.CommandUtils;
 import org.global.console.utils.ConsoleUtils;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
-import org.jline.reader.impl.completer.StringsCompleter;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.widget.AutosuggestionWidgets;
 
-import java.io.Console;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 @Slf4j
 public class Main {

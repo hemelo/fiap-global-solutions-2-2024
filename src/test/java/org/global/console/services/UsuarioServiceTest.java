@@ -3,13 +3,10 @@ package org.global.console.service;
 import org.global.console.dto.request.create.CreateUserDto;
 import org.global.console.dto.request.update.UpdateUserDto;
 import org.global.console.model.Usuario;
-import org.global.console.repository.UsuarioRepository;
 import org.global.console.services.UsuarioService;
 import org.junit.jupiter.api.*;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,7 +1,5 @@
 package org.global.console.dto.response;
 
-import org.global.console.enums.UnidadeMedida;
-
 import java.time.LocalDateTime;
 
 public record EnergiaResponse (

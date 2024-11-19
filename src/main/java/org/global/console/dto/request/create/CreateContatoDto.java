@@ -1,9 +1,8 @@
 package org.global.console.dto.request.create;
 
-import org.apache.commons.lang3.StringUtils;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 public record CreateContatoDto (
         @Email(message = "Email com formato inválido")

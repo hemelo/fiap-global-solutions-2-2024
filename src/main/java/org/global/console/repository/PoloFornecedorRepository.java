@@ -3,8 +3,6 @@ package org.global.console.repository;
 import lombok.extern.slf4j.Slf4j;
 import oracle.sql.ROWID;
 import org.global.console.infra.DataSource;
-import org.global.console.model.Energia;
-import org.global.console.model.Fornecedor;
 import org.global.console.model.PoloFornecedor;
 
 import java.sql.*;

@@ -1,9 +1,8 @@
 package org.global.console.dto.request.update;
 
-import org.global.console.enums.UnidadeMedida;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.global.console.enums.UnidadeMedida;
 
 public record UpdateEnergiaDto (
 

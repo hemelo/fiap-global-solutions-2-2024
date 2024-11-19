@@ -1,9 +1,7 @@
 package org.global.console.dto.request.create;
 
-import org.global.console.enums.UnidadeMedida;
-
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import org.global.console.enums.UnidadeMedida;
 
 public record CreateEnergiaDto(
         @NotBlank(message = "Nome é obrigatório")

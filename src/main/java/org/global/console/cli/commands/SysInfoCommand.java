@@ -1,6 +1,5 @@
 package org.global.console.cli.commands;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.global.console.utils.CommandUtils;
 import org.global.console.utils.ConsoleUtils;
 import org.jline.utils.AttributedString;

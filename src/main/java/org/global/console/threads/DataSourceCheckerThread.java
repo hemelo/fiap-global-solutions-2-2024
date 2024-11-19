@@ -3,8 +3,6 @@ package org.global.console.threads;
 import org.global.console.infra.DataSource;
 import org.global.console.utils.ConsoleUtils;
 
-import java.time.Instant;
-
 public class DataSourceCheckerThread extends Thread {
 
     public static DataSourceCheckerThread dataSourceCheckerThread;
