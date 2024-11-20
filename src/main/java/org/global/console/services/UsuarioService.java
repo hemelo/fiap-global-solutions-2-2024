@@ -6,6 +6,7 @@ import org.global.console.dto.request.LoginDto;
 import org.global.console.dto.request.create.CreateUserDto;
 import org.global.console.dto.request.update.UpdateUserDto;
 import org.global.console.dto.response.UsuarioResponse;
+import org.global.console.exceptions.RecursoNaoEncontradoException;
 import org.global.console.model.Usuario;
 import org.global.console.repository.LogRepository;
 import org.global.console.repository.UsuarioRepository;
@@ -94,6 +95,11 @@ public class UsuarioService {
 
     public UsuarioResponse viewUsuario(String login) throws SQLException {
         Usuario usuario = usuarioRepository.findByLogin(login);
+
+        if (usuario == null) {
+            throw new RecursoNaoEncontradoException("Usuário não encontrado.");
+        }
+
         return toUsuarioResponse(usuario);
     }
 

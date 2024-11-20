@@ -7,6 +7,7 @@ import org.global.console.dto.request.update.UpdateFornecedorDto;
 import org.global.console.dto.request.update.UpdatePoloFornecedorDto;
 import org.global.console.dto.response.FornecedorResponse;
 import org.global.console.dto.response.PoloFornecedorResponse;
+import org.global.console.exceptions.RecursoNaoEncontradoException;
 import org.global.console.model.Fornecedor;
 import org.global.console.model.FornecimentoEnergetico;
 import org.global.console.model.PoloFornecedor;
@@ -136,11 +137,21 @@ public class FornecedorService {
 
     public FornecedorResponse viewFornecedor(Long id) throws SQLException {
         Fornecedor fornecedor = getFornecedorById(id);
+
+        if (fornecedor == null) {
+            throw new RecursoNaoEncontradoException("Fornecedor não encontrado");
+        }
+
         return toResponse(fornecedor);
     }
 
     public PoloFornecedorResponse viewPoloFornecedor(Long id) throws SQLException {
         PoloFornecedor poloFornecedor = poloFornecedorRepository.findById(id);
+
+        if (poloFornecedor == null) {
+            throw new RecursoNaoEncontradoException("Polo Fornecedor não encontrado");
+        }
+
         return poloToResponse(poloFornecedor);
     }
 

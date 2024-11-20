@@ -3,6 +3,7 @@ package org.global.console.services;
 import org.global.console.dto.response.ComunidadeResponse;
 import org.global.console.dto.response.MatchEnergeticoResponse;
 import org.global.console.exceptions.NegocioException;
+import org.global.console.exceptions.RecursoNaoEncontradoException;
 import org.global.console.model.Comunidade;
 import org.global.console.model.FornecimentoEnergetico;
 import org.global.console.model.PoloFornecedor;
@@ -40,6 +41,11 @@ public class MatchEnergeticoService {
     public List<MatchEnergeticoResponse> realizarMatchEnergetico(Long comunidadeId) throws SQLException {
         List<FornecimentoEnergetico> fornecimentoEnergeticoList = Objects.requireNonNullElse(fornecimentoEnergeticoService.getAllDetailedFornecimentoEnergeticos(), new ArrayList<>());
         Comunidade comunidade = comunidadeService.getComunidadeById(comunidadeId);
+
+        if (comunidade == null) {
+            throw new RecursoNaoEncontradoException("Comunidade não encontrada");
+        }
+
         ComunidadeResponse comunidadeResponse = comunidadeService.toResponse(comunidade);
 
         long totalPopulacaoAtendida = fornecimentoEnergeticoList.stream().filter(f -> Objects.equals(f.getComunidadeId(), comunidadeId)).mapToLong(FornecimentoEnergetico::getPopulacao).sum();

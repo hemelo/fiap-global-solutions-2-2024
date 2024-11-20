@@ -6,6 +6,7 @@ import org.global.console.Main;
 import org.global.console.dto.request.create.CreateComunidadeDto;
 import org.global.console.dto.request.update.UpdateComunidadeDto;
 import org.global.console.dto.response.ComunidadeResponse;
+import org.global.console.exceptions.RecursoNaoEncontradoException;
 import org.global.console.services.ComunidadeService;
 import org.global.console.utils.CommandUtils;
 import org.global.console.utils.ConsoleUtils;
@@ -76,6 +77,9 @@ public class ComunidadeCommand implements Command {
 
         try {
             comunidadeResponse = ComunidadeService.getInstance().viewComunidade(id);
+        } catch (RecursoNaoEncontradoException e) {
+            ConsoleUtils.printStyledError("Comunidade não encontrada.");
+            return;
         } catch (Exception e) {
             ConsoleUtils.printStyledError("Erro ao buscar comunidade");
             return;
@@ -190,8 +194,12 @@ public class ComunidadeCommand implements Command {
         }
 
         try {
-            ComunidadeService.getInstance().deleteComunidade(id);
-            ConsoleUtils.printStyledSuccess("Comunidade removido com sucesso.");
+
+            if (ComunidadeService.getInstance().deleteComunidade(id)) {
+                ConsoleUtils.printStyledSuccess("Comunidade removida com sucesso.");
+            } else {
+                ConsoleUtils.printStyledError("Comunidade não encontrada para deleção.");
+            }
         } catch (Exception e) {
             ConsoleUtils.printStyledError("Erro ao remover comunidade.");
         }

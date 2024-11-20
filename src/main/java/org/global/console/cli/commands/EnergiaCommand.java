@@ -7,6 +7,7 @@ import org.global.console.dto.request.create.CreateEnergiaDto;
 import org.global.console.dto.request.update.UpdateEnergiaDto;
 import org.global.console.dto.response.EnergiaResponse;
 import org.global.console.enums.UnidadeMedida;
+import org.global.console.exceptions.RecursoNaoEncontradoException;
 import org.global.console.services.EnergiaService;
 import org.global.console.utils.CommandUtils;
 import org.global.console.utils.ConsoleUtils;
@@ -79,6 +80,9 @@ public class EnergiaCommand implements Command {
 
         try {
             energiaResponse = energiaService.viewEnergia(id);
+        } catch (RecursoNaoEncontradoException e) {
+            ConsoleUtils.printStyledError("Fonte de energia não encontrada.");
+            return;
         } catch (Exception e) {
             ConsoleUtils.printStyledError("Erro ao buscar fonte de energia");
             return;
@@ -177,8 +181,11 @@ public class EnergiaCommand implements Command {
         }
 
         try {
-            EnergiaService.getInstance().deleteEnergia(id);
-            ConsoleUtils.printStyledSuccess("Fonte de energia removida com sucesso.");
+            if (EnergiaService.getInstance().deleteEnergia(id)) {
+                ConsoleUtils.printStyledSuccess("Fonte de energia removida com sucesso.");
+            } else {
+                ConsoleUtils.printStyledError("Fonte de energia não encontrada para deleção.");
+            }
         } catch (Exception e) {
             ConsoleUtils.printStyledError("Erro ao remover fonte de energia.");
         }

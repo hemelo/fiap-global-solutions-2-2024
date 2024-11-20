@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.global.console.dto.request.create.CreateComunidadeDto;
 import org.global.console.dto.request.update.UpdateComunidadeDto;
 import org.global.console.dto.response.ComunidadeResponse;
+import org.global.console.exceptions.RecursoNaoEncontradoException;
 import org.global.console.model.Comunidade;
 import org.global.console.repository.ComunidadeRepository;
 import org.global.console.repository.LogRepository;
@@ -81,6 +82,11 @@ public class ComunidadeService {
 
     public ComunidadeResponse viewComunidade(long id) throws SQLException {
         Comunidade comunidade = getComunidadeById(id);
+
+        if (comunidade == null) {
+            throw new RecursoNaoEncontradoException("Comunidade não encontrada");
+        }
+
         return toResponse(comunidade);
     }
 

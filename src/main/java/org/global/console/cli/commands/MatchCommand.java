@@ -8,6 +8,7 @@ import org.global.console.dto.response.FornecedorResponse;
 import org.global.console.dto.response.MatchEnergeticoResponse;
 import org.global.console.dto.response.PoloFornecedorResponse;
 import org.global.console.exceptions.NegocioException;
+import org.global.console.exceptions.RecursoNaoEncontradoException;
 import org.global.console.services.MatchEnergeticoService;
 import org.global.console.utils.CommandUtils;
 import org.global.console.utils.ConsoleUtils;
@@ -95,6 +96,8 @@ public class MatchCommand implements Command {
 
             } catch (NegocioException e) {
                 ConsoleUtils.printStyledWarning(e.getMessage());
+            } catch (RecursoNaoEncontradoException e) {
+                ConsoleUtils.printStyledError(e.getMessage());
             } catch (Exception e) {
                 ConsoleUtils.printStyledError("Erro ao listar matches energéticos para a comunidade.");
             }

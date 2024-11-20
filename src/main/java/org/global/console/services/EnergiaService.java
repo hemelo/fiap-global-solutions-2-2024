@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.global.console.dto.request.create.CreateEnergiaDto;
 import org.global.console.dto.request.update.UpdateEnergiaDto;
 import org.global.console.dto.response.EnergiaResponse;
+import org.global.console.exceptions.RecursoNaoEncontradoException;
 import org.global.console.model.Energia;
 import org.global.console.repository.EnergiaRepository;
 import org.global.console.repository.LogRepository;
@@ -82,6 +83,11 @@ public class EnergiaService {
 
     public EnergiaResponse viewEnergia(long id) throws SQLException {
         Energia energia = energiaRepository.findById(id);
+
+        if (energia == null) {
+            throw new RecursoNaoEncontradoException("Energia não encontrada");
+        }
+
         return toEnergiaResponse(energia);
     }
 

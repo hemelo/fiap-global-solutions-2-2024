@@ -12,6 +12,7 @@ import org.global.console.dto.request.update.UpdatePoloFornecedorDto;
 import org.global.console.dto.response.FornecedorResponse;
 import org.global.console.dto.response.FornecimentoEnergeticoResponse;
 import org.global.console.dto.response.PoloFornecedorResponse;
+import org.global.console.exceptions.RecursoNaoEncontradoException;
 import org.global.console.services.FornecedorService;
 import org.global.console.services.FornecimentoEnergeticoService;
 import org.global.console.utils.CommandUtils;
@@ -43,22 +44,22 @@ public class FornecedorCommand implements Command {
 
         switch (args[0]) {
             case "listar":
-                listar(subArgs);
+                listarFornecedores(subArgs);
                 break;
             case "adicionar":
                 CommandUtils.loginCheck();
-                adicionar(subArgs);
+                adicionarFornecedor(subArgs);
                 break;
             case "remover":
                 CommandUtils.loginCheck();
-                remover(subArgs);
+                removerFornecedor(subArgs);
                 break;
             case "atualizar":
                 CommandUtils.loginCheck();
-                atualizar(subArgs);
+                atualizarFornecedor(subArgs);
                 break;
             case "detalhar":
-                detalhar(subArgs);
+                detalharFornecedor(subArgs);
                 break;
             case "disponibilizacao":
                 if (subArgs.length == 0) {
@@ -128,7 +129,7 @@ public class FornecedorCommand implements Command {
         }
     }
 
-    private void detalhar(String[] subArgs) {
+    private void detalharFornecedor(String[] subArgs) {
 
         if (subArgs.length != 1) {
             CommandUtils.displayCommandHelp(this, true);
@@ -148,6 +149,9 @@ public class FornecedorCommand implements Command {
 
         try {
             fornecedorResponse = FornecedorService.getInstance().viewFornecedor(id);
+        } catch (RecursoNaoEncontradoException ex) {
+            ConsoleUtils.printStyledError("Fornecedor não encontrado.");
+            return;
         } catch (Exception e) {
             ConsoleUtils.printStyledError("Erro ao buscar fornecedor");
             return;
@@ -181,7 +185,7 @@ public class FornecedorCommand implements Command {
         }
     }
 
-    private void atualizar(String[] subArgs) {
+    private void atualizarFornecedor(String[] subArgs) {
 
         if (subArgs.length != 1) {
             CommandUtils.displayCommandHelp(this, true);
@@ -226,7 +230,7 @@ public class FornecedorCommand implements Command {
         }
     }
 
-    private void remover(String[] subArgs) {
+    private void removerFornecedor(String[] subArgs) {
 
         if (subArgs.length != 1) {
             CommandUtils.displayCommandHelp(this, true);
@@ -247,14 +251,19 @@ public class FornecedorCommand implements Command {
         }
 
         try {
-            FornecedorService.getInstance().deleteFornecedor(id);
-            ConsoleUtils.printStyledSuccess("Fornecedor removido com sucesso.");
+
+            if (FornecedorService.getInstance().deleteFornecedor(id)) {
+                ConsoleUtils.printStyledSuccess("Fornecedor removido com sucesso.");
+            } else {
+                ConsoleUtils.printStyledError("Erro ao remover fornecedor.");
+            }
+
         } catch (Exception e) {
             ConsoleUtils.printStyledError("Erro ao remover fornecedor.");
         }
     }
 
-    private void adicionar(String[] subArgs) {
+    private void adicionarFornecedor(String[] subArgs) {
 
         FornecedorService fornecedorService = FornecedorService.getInstance();
         LineReader reader = Main.getReader();
@@ -281,7 +290,7 @@ public class FornecedorCommand implements Command {
         }
     }
 
-    private void listar(String[] subArgs) {
+    private void listarFornecedores(String[] subArgs) {
 
         List<FornecedorResponse> fornecedores;
 
@@ -510,8 +519,11 @@ public class FornecedorCommand implements Command {
         }
 
         try {
-            FornecedorService.getInstance().deletePoloFornecedor(id);
-            ConsoleUtils.printStyledSuccess("Polo fornecedor removido com sucesso.");
+            if (FornecedorService.getInstance().deletePoloFornecedor(id)) {
+                ConsoleUtils.printStyledSuccess("Polo fornecedor removido com sucesso.");
+            } else {
+                ConsoleUtils.printStyledError("Erro ao remover polo fornecedor.");
+            }
         } catch (Exception e) {
             ConsoleUtils.printStyledError("Erro ao remover polo fornecedor.");
         }
@@ -536,6 +548,9 @@ public class FornecedorCommand implements Command {
 
         try {
             poloFornecedorResponse = FornecedorService.getInstance().viewPoloFornecedor(id);
+        } catch (RecursoNaoEncontradoException e) {
+            ConsoleUtils.printStyledError("Polo Fornecedor não encontrado.");
+            return;
         } catch (Exception e) {
             ConsoleUtils.printStyledError("Erro ao buscar polo fornecedor");
             return;
@@ -675,6 +690,9 @@ public class FornecedorCommand implements Command {
 
         try {
             fornecimentoEnergetico = FornecimentoEnergeticoService.getInstance().viewFornecimentoEnergetico(id);
+        } catch (RecursoNaoEncontradoException e) {
+            ConsoleUtils.printStyledError("Fornecimento energético não encontrado.");
+            return;
         } catch (Exception e) {
             ConsoleUtils.printStyledError("Erro ao buscar fornecimento energético");
             return;
@@ -854,8 +872,12 @@ public class FornecedorCommand implements Command {
         }
 
         try {
-            FornecimentoEnergeticoService.getInstance().deleteFornecimentoEnergetico(id);
-            ConsoleUtils.printStyledSuccess("Fornecimento energético removido com sucesso.");
+
+            if (FornecimentoEnergeticoService.getInstance().deleteFornecimentoEnergetico(id)) {
+                ConsoleUtils.printStyledSuccess("Fornecimento energético removido com sucesso.");
+            } else {
+                ConsoleUtils.printStyledError("Erro ao remover fornecimento energético.");
+            }
         } catch (Exception e) {
             ConsoleUtils.printStyledError("Erro ao remover fornecimento energético.");
         }

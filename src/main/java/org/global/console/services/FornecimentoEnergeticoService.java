@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.global.console.dto.request.create.CreateFornecimentoEnergeticoDto;
 import org.global.console.dto.request.update.UpdateFornecimentoEnergeticoDto;
 import org.global.console.dto.response.*;
+import org.global.console.exceptions.RecursoNaoEncontradoException;
 import org.global.console.model.FornecimentoEnergetico;
 import org.global.console.model.PoloFornecedor;
 import org.global.console.repository.FornecimentoEnergeticoRepository;
@@ -91,6 +92,11 @@ public class FornecimentoEnergeticoService {
 
     public FornecimentoEnergeticoResponse viewFornecimentoEnergetico(long id) throws SQLException {
         FornecimentoEnergetico fornecimentoEnergetico = this.getDetailedFornecimentoEnergeticoById(id);
+
+        if (fornecimentoEnergetico == null) {
+            throw new RecursoNaoEncontradoException("Fornecimento Energetico não encontrado");
+        }
+
         return this.toResponse(fornecimentoEnergetico);
     }
 

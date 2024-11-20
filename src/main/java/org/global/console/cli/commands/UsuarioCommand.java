@@ -7,6 +7,7 @@ import org.global.console.Main;
 import org.global.console.dto.request.create.CreateUserDto;
 import org.global.console.dto.request.update.UpdateUserDto;
 import org.global.console.dto.response.UsuarioResponse;
+import org.global.console.exceptions.RecursoNaoEncontradoException;
 import org.global.console.services.UsuarioService;
 import org.global.console.utils.CommandUtils;
 import org.global.console.utils.ConsoleUtils;
@@ -76,6 +77,9 @@ public class UsuarioCommand implements Command {
 
         try {
             usuarioResponse = UsuarioService.getInstance().viewUsuario(login);
+        } catch (RecursoNaoEncontradoException ex) {
+            ConsoleUtils.printStyledError("Usuario não encontrado.");
+            return;
         } catch (Exception e) {
             ConsoleUtils.printStyledError("Erro ao buscar usuario");
             return;
@@ -156,8 +160,12 @@ public class UsuarioCommand implements Command {
         }
 
         try {
-            UsuarioService.getInstance().deleteUser(login);
-            ConsoleUtils.printStyledSuccess("Usuario removido com sucesso.");
+
+            if (UsuarioService.getInstance().deleteUser(login)) {
+                ConsoleUtils.printStyledSuccess("Usuario removido com sucesso.");
+            } else {
+                ConsoleUtils.printStyledError("Usuario não encontrado.");
+            }
         } catch (Exception e) {
             ConsoleUtils.printStyledError("Erro ao remover usuario.");
         }
