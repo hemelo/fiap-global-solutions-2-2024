@@ -86,6 +86,11 @@ class EnergiaServiceTest {
     @Test
     void testViewAllEnergias() {
         Assertions.assertDoesNotThrow(() -> {
+            CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Eólica", "Energia obtida a partir do vento", null, "Eólica");
+            Energia energia = energiaService.createEnergia(createEnergiaDto);
+
+            assertNotNull(energia);
+
             List<EnergiaResponse> energiaResponses = energiaService.viewAllEnergias();
 
             assertNotNull(energiaResponses);

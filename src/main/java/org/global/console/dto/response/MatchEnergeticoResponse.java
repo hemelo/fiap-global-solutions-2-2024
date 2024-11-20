@@ -2,6 +2,8 @@ package org.global.console.dto.response;
 
 import lombok.*;
 
+import java.util.List;
+
 @Builder
 @Getter
 @Setter
@@ -17,10 +19,12 @@ public class MatchEnergeticoResponse {
     private FornecedorResponse fornecedor;
     private EnergiaResponse energia;
     private Double distancia;
-    private Long populacaoDeficit;
+    private Long populacaoDeficitInicial;
     private Long capacidadeMaximaPoloRestante;
     private Long populacaoASerAtendida;
-    private Byte percentualPopulacaoAtendidaEmRelacaoPopulacaoTotal;
-    private Byte percentualPopulacaoAtendidaEmRelacaoAoDeficit;
-    private Byte percentualCapacidadePoloRestante;
+    private Double percentualPopulacaoAtendidaEmRelacaoPopulacaoTotal;
+    private Double percentualPopulacaoAtendidaEmRelacaoAoDeficit;
+    private Double percentualCapacidadePoloRestante;
+    private Integer rankDistancia;
+    private Integer rankSuprimentoDeficit;
 }

@@ -104,7 +104,7 @@ public class FornecimentoEnergeticoRepository implements Repository<Fornecimento
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setLong(1, comunidadeId);
-                ResultSet rs = stmt.executeQuery(query);
+                ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
                     fornecimentoEnergeticos.add(mapResultToFornecimentoEnergetico(rs, false));

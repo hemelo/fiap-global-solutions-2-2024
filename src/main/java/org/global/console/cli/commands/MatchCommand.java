@@ -80,9 +80,15 @@ public class MatchCommand implements Command {
                         CommandUtils.printDetail("Distância do polo", match.getDistancia() + " km");
                     }
 
-                    CommandUtils.printDetail("População a ser atendida", match.getPopulacaoASerAtendida() + " pessoas (" + match.getPercentualPopulacaoAtendidaEmRelacaoAoDeficit() + "% de " + match.getPopulacaoDeficit() + " e " + match.getPercentualPopulacaoAtendidaEmRelacaoPopulacaoTotal() + "% da população total " + Optional.ofNullable(match.getComunidade()).map(ComunidadeResponse::populacao).orElse(null) + ")");
+                    CommandUtils.printDetail("População a ser atendida", match.getPopulacaoASerAtendida() + " pessoas (" + match.getPercentualPopulacaoAtendidaEmRelacaoAoDeficit() + "% de " + match.getPopulacaoDeficitInicial() + " e " + match.getPercentualPopulacaoAtendidaEmRelacaoPopulacaoTotal() + "% da população total " + Optional.ofNullable(match.getComunidade()).map(ComunidadeResponse::populacao).orElse(null) + ")");
                     CommandUtils.printDetail("Capacidade restante do polo", match.getCapacidadeMaximaPoloRestante() + " pessoas (" + match.getPercentualCapacidadePoloRestante() + "%)");
 
+                    if (matchEnergetico.size() > 1) {
+                        CommandUtils.printDetail("Rank de distância", String.valueOf(match.getRankDistancia()) + " de " + matchEnergetico.size() + " matches (menor é melhor)");
+                        CommandUtils.printDetail("Rank de população a ser atendida", String.valueOf(match.getRankSuprimentoDeficit()) + " de " + matchEnergetico.size() + " matches (menor é melhor)");
+                    }
+
+                    ConsoleUtils.printWithTypingEffect("");
                 }
 
                 ConsoleUtils.printStyledSuccess("\nGostou de algum match? Basta registrar o fornecimento energético para a comunidade com o comando '" + new AttributedString("fornecedor disponibilizacao adicionar", AttributedStyle.DEFAULT.foreground(AttributedStyle.CYAN)).toAnsi() + "'.");

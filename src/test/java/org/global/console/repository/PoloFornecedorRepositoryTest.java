@@ -110,7 +110,7 @@ class PoloFornecedorRepositoryTest {
         when(resultSet.getLong("id")).thenReturn(1L);
         when(resultSet.getString("nome")).thenReturn("Polo Fornecedor Teste");
         when(resultSet.getString("endereco")).thenReturn("Local Teste");
-        when(resultSet.getLong("fornecedor_id")).thenReturn(1L);
+        when(resultSet.getLong("id_fornecedor")).thenReturn(1L);
         when(resultSet.getDouble("latitude")).thenReturn(10.0);
         when(resultSet.getDouble("longitude")).thenReturn(20.0);
         when(resultSet.getLong("capacidade_populacional")).thenReturn(500L);
@@ -138,7 +138,7 @@ class PoloFornecedorRepositoryTest {
         when(resultSet.getLong("id")).thenReturn(1L);
         when(resultSet.getString("nome")).thenReturn("Polo Fornecedor Teste");
         when(resultSet.getString("endereco")).thenReturn("Local Teste");
-        when(resultSet.getLong("fornecedor_id")).thenReturn(1L);
+        when(resultSet.getLong("id_fornecedor")).thenReturn(1L);
         when(resultSet.getDouble("latitude")).thenReturn(10.0);
         when(resultSet.getDouble("longitude")).thenReturn(20.0);
         when(resultSet.getLong("capacidade_populacional")).thenReturn(500L);

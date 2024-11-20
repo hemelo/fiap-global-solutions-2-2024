@@ -25,6 +25,7 @@ public class MatchEnergeticoService {
     private MatchEnergeticoService() {
         this.fornecimentoEnergeticoService = FornecimentoEnergeticoService.getInstance();
         this.comunidadeService = ComunidadeService.getInstance();
+        this.fornecedorService = FornecedorService.getInstance();
     }
 
     public static MatchEnergeticoService getInstance() {
@@ -49,7 +50,7 @@ public class MatchEnergeticoService {
             return null;
         }
 
-        List<PoloFornecedor> poloFornecedorList = fornecimentoEnergeticoList.stream().map(FornecimentoEnergetico::getPoloFornecedor).toList();
+        List<PoloFornecedor> poloFornecedorList = fornecedorService.getAllPolosFornecedor();
 
         // Filtrar os PoloFornecedor que ainda possuem capacidade de atendimento
         poloFornecedorList = Objects.requireNonNullElse(poloFornecedorList, new ArrayList<PoloFornecedor>()).stream().filter(polo -> {
@@ -93,13 +94,31 @@ public class MatchEnergeticoService {
             match.setDistancia(MathUtils.calcularDistancia(comunidade.getLatitude(), comunidade.getLongitude(), poloFornecedor.getLatitude(), poloFornecedor.getLongitude()));
             match.setComunidade(comunidadeResponse);
             match.setCapacidadeMaximaPoloRestante(capacidadeRestante - aAtender);
-            match.setPercentualCapacidadePoloRestante((byte) ((capacidadeRestante - aAtender) * 100 / poloFornecedor.getCapacidadeNormal()));
-            match.setPercentualPopulacaoAtendidaEmRelacaoPopulacaoTotal((byte) (aAtender * 100 / populacaoComunidade));
-            match.setPercentualPopulacaoAtendidaEmRelacaoAoDeficit((byte) (aAtender * 100 / populacaoNaoAtendidaOriginal));
-            match.setPopulacaoDeficit(populacaoNaoAtendidaOriginal);
+            match.setPercentualCapacidadePoloRestante((double) ((capacidadeRestante - aAtender) * 100.0 / poloFornecedor.getCapacidadeNormal()));
+            match.setPercentualPopulacaoAtendidaEmRelacaoPopulacaoTotal((double) (aAtender * 100.0 / populacaoComunidade));
+            match.setPercentualPopulacaoAtendidaEmRelacaoAoDeficit((double) (aAtender * 100.0 / populacaoNaoAtendidaOriginal));
+            match.setPopulacaoDeficitInicial(populacaoNaoAtendidaOriginal);
             matches.add(match);
 
             populacaoNaoAtendida -= aAtender;
+        }
+
+        for (int i = 0; i < matches.size(); i++) {
+            MatchEnergeticoResponse match = matches.get(i);
+
+            // Calculate rank in distance
+            long rankDistancia = matches.stream()
+                    .filter(m -> !m.equals(match))
+                    .filter(m -> m.getDistancia() < match.getDistancia())
+                    .count() + 1;
+            match.setRankDistancia((int) rankDistancia);
+
+            // Calculate rank in deficit supply
+            long rankSuprimentoDeficit = matches.stream()
+                    .filter(m -> !m.equals(match))
+                    .filter(m -> m.getPopulacaoASerAtendida() > match.getPopulacaoASerAtendida())
+                    .count() + 1;
+            match.setRankSuprimentoDeficit((int) rankSuprimentoDeficit);
         }
 
         return matches;
