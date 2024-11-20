@@ -66,7 +66,7 @@ public class FornecimentoEnergeticoService {
     }
 
     public List<FornecimentoEnergetico> getAllFornecimentoEnergeticosByComunidadeId(Long comunidadeId) throws SQLException {
-        return fornecimentoEnergeticoRepository.findAllDetailedByComunidadeId(comunidadeId);
+        return fornecimentoEnergeticoRepository.findAllByComunidadeId(comunidadeId);
     }
 
     public List<FornecimentoEnergetico> getAllDetailedFornecimentoEnergeticos() throws SQLException {
@@ -74,7 +74,7 @@ public class FornecimentoEnergeticoService {
     }
 
     public List<FornecimentoEnergetico> getAllDetailedFornecimentoEnergeticosByComunidadeId(Long comunidadeId) throws SQLException {
-        return fornecimentoEnergeticoRepository.findAllByComunidadeId(comunidadeId);
+        return fornecimentoEnergeticoRepository.findAllDetailedByComunidadeId(comunidadeId);
     }
 
     public FornecimentoEnergetico getFornecimentoEnergeticoById(Long id) throws SQLException {

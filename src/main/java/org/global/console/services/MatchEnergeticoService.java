@@ -38,11 +38,11 @@ public class MatchEnergeticoService {
     }
 
     public List<MatchEnergeticoResponse> realizarMatchEnergetico(Long comunidadeId) throws SQLException {
-        List<FornecimentoEnergetico> fornecimentoEnergeticoList = Objects.requireNonNullElse(fornecimentoEnergeticoService.getAllDetailedFornecimentoEnergeticosByComunidadeId(comunidadeId), new ArrayList<>());
+        List<FornecimentoEnergetico> fornecimentoEnergeticoList = Objects.requireNonNullElse(fornecimentoEnergeticoService.getAllDetailedFornecimentoEnergeticos(), new ArrayList<>());
         Comunidade comunidade = comunidadeService.getComunidadeById(comunidadeId);
         ComunidadeResponse comunidadeResponse = comunidadeService.toResponse(comunidade);
 
-        long totalPopulacaoAtendida = fornecimentoEnergeticoList.stream().mapToLong(FornecimentoEnergetico::getPopulacao).sum();
+        long totalPopulacaoAtendida = fornecimentoEnergeticoList.stream().filter(f -> Objects.equals(f.getComunidadeId(), comunidadeId)).mapToLong(FornecimentoEnergetico::getPopulacao).sum();
         long populacaoComunidade = comunidade.getPopulacao();
         long populacaoNaoAtendida = populacaoComunidade - totalPopulacaoAtendida;
 

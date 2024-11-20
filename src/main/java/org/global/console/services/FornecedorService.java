@@ -167,7 +167,7 @@ public class FornecedorService {
     }
 
     public long getSomaFornecimentoEnergeticoPolo(PoloFornecedor polo, List<FornecimentoEnergetico> fornecimentoEnergeticoList) {
-        return Objects.requireNonNullElse(fornecimentoEnergeticoList, new ArrayList<FornecimentoEnergetico>()).stream().filter(fornecimento -> fornecimento.getPoloFornecedor().getId().equals(polo.getId())).mapToLong(FornecimentoEnergetico::getPopulacao).sum();
+        return Objects.requireNonNullElse(fornecimentoEnergeticoList, new ArrayList<FornecimentoEnergetico>()).stream().filter(fornecimento -> fornecimento.getPoloId().equals(polo.getId())).mapToLong(FornecimentoEnergetico::getPopulacao).sum();
     }
 
     FornecedorResponse toResponse(Fornecedor fornecedor) {
