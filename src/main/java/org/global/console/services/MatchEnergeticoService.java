@@ -58,6 +58,10 @@ public class MatchEnergeticoService {
 
         List<PoloFornecedor> poloFornecedorList = fornecedorService.getAllPolosFornecedor();
 
+        if (poloFornecedorList.isEmpty()) {
+            throw new RecursoNaoEncontradoException("Não há PoloFornecedor cadastrado");
+        }
+
         // Filtrar os PoloFornecedor que ainda possuem capacidade de atendimento
         poloFornecedorList = Objects.requireNonNullElse(poloFornecedorList, new ArrayList<PoloFornecedor>()).stream().filter(polo -> {
             long populacaoAtendidaPolo = fornecedorService.getSomaFornecimentoEnergeticoPolo(polo, fornecimentoEnergeticoList);

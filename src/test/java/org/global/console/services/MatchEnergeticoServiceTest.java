@@ -2,13 +2,15 @@ package org.global.console.services;
 
 import org.global.console.dto.request.create.*;
 import org.global.console.dto.response.MatchEnergeticoResponse;
+import org.global.console.exceptions.NegocioException;
+import org.global.console.exceptions.RecursoNaoEncontradoException;
 import org.global.console.model.*;
 import org.global.console.utils.MathUtils;
 import org.junit.jupiter.api.*;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,6 +30,12 @@ class MatchEnergeticoServiceTest {
         energiaService = EnergiaService.getInstance();
         fornecedorService = FornecedorService.getInstance();
         fornecimentoEnergeticoService = FornecimentoEnergeticoService.getInstance();
+
+        comunidadeService.getComunidadeRepository().truncate();
+        fornecedorService.getPoloFornecedorRepository().truncate();
+        fornecedorService.getFornecedorRepository().truncate();
+        energiaService.getEnergiaRepository().truncate();
+        fornecimentoEnergeticoService.getFornecimentoEnergeticoRepository().truncate();
     }
 
     @BeforeEach
@@ -270,6 +278,70 @@ class MatchEnergeticoServiceTest {
             }
 
             assertTrue(match1.getDistancia() < match2.getDistancia());
+        });
+    }
+
+    @Test
+    void testDeveLancarExceptionSeComunidadeNaoExistir() {
+        assertThrows(RecursoNaoEncontradoException.class, () -> matchEnergeticoService.realizarMatchEnergetico(32000L));
+    }
+
+    @Test
+    void testDeveLancarExceptionSeNenhumPoloForEncontrado() {
+        // Criar Comunidade
+        CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade A", "Localizacao A", "Descricao A", 20.0, 20.0, 3000L);
+        AtomicReference<Comunidade> comunidade = new AtomicReference<>();
+
+        Assertions.assertDoesNotThrow(() -> {
+            comunidade.set(comunidadeService.createComunidade(createComunidadeDto));
+        });
+
+        assertNotNull(comunidade.get());
+        assertThrows(RecursoNaoEncontradoException.class, () -> matchEnergeticoService.realizarMatchEnergetico(comunidade.get().getId()));
+    }
+
+    @Test
+    void testDeveLancarExceptionSeNenhumPoloEstiverDisponivel() {
+        Assertions.assertDoesNotThrow(() -> {
+            // Criar Energia
+            CreateEnergiaDto createEnergiaDto = new CreateEnergiaDto("Energia Solar", "Energia obtida a partir do sol", null, "Renovável");
+            Energia energia = energiaService.createEnergia(createEnergiaDto);
+            assertNotNull(energia);
+
+            // Criar Fornecedor
+            CreateFornecedorDto createFornecedorDto = new CreateFornecedorDto("Fornecedor A", "12345678901234", "Endereco A", "Descricao A");
+            Fornecedor fornecedor = fornecedorService.createFornecedor(createFornecedorDto);
+            assertNotNull(fornecedor);
+
+            // Criar PoloFornecedor sem capacidade disponível
+            CreatePoloFornecedorDto createPoloFornecedorDto = new CreatePoloFornecedorDto("Polo A", "Endereco A", 10.0, 10.0, fornecedor.getId(), energia.getId(), 2000L, 2000L);
+            PoloFornecedor poloFornecedor = fornecedorService.createPoloFornecedor(createPoloFornecedorDto);
+            assertNotNull(poloFornecedor);
+
+            // Criar PoloFornecedor sem capacidade disponível 2
+            CreatePoloFornecedorDto createPoloFornecedorDto2 = new CreatePoloFornecedorDto("Polo B", "Endereco B", 15.0, 15.0, fornecedor.getId(), energia.getId(), 0L, 0L);
+            PoloFornecedor poloFornecedor2 = fornecedorService.createPoloFornecedor(createPoloFornecedorDto2);
+            assertNotNull(poloFornecedor2);
+
+            // Criar outra comunidade
+            CreateComunidadeDto createComunidadeDto2 = new CreateComunidadeDto("Comunidade C", "Localizacao C", "Descricao C", 30.0, 30.0, poloFornecedor.getCapacidadeNormal() * 2);
+            Comunidade comunidade2 = comunidadeService.createComunidade(createComunidadeDto2);
+
+            assertNotNull(comunidade2);
+
+            // Criar fornecimento energético para a comunidade 2
+            CreateFornecimentoEnergeticoDto createFornecimentoEnergeticoDto = new CreateFornecimentoEnergeticoDto(comunidade2.getId(), poloFornecedor.getId(), poloFornecedor.getCapacidadeNormal());
+            FornecimentoEnergetico fornecimentoEnergetico = fornecimentoEnergeticoService.createFornecimentoEnergetico(createFornecimentoEnergeticoDto);
+
+            assertNotNull(fornecimentoEnergetico);
+
+            // Criar Comunidade
+            CreateComunidadeDto createComunidadeDto = new CreateComunidadeDto("Comunidade A", "Localizacao A", "Descricao A", 20.0, 20.0, 3000L);
+            Comunidade comunidade = comunidadeService.createComunidade(createComunidadeDto);
+            assertNotNull(comunidade);
+
+            // Tentar realizar Match
+            assertThrows(NegocioException.class, () -> matchEnergeticoService.realizarMatchEnergetico(comunidade.getId()));
         });
     }
 }
