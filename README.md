@@ -37,3 +37,15 @@ Integrantes que participaram da incrível Global Solution 2 de 2024 da turma de 
     </td>
   </tr>
 </table>
+
+<h2 id="projeto">🚀 Projeto</h2>
+
+Clique na imagem para acessar o vídeo de apresentação do projeto.
+
+<a href="https://drive.proton.me/urls/0TKGAGH74C#8q68gxdv676f">
+    <img src="docs/src/img.png" alt="Imagem do Projeto" width="640" height="360">
+</a>
+
+<h2 id="pitch">🎤 Pitch</h2>
+
+Clique <a href="https://drive.proton.me/urls/P3S5XJHK70#Y6zLQfW8MCKK">aqui</a> para acessar o pitch do projeto.
