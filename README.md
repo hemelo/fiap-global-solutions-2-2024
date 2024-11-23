@@ -1,4 +1,4 @@
-# Global Solution 2024/2
+# Fiap Global Solutions 2024/2
 
 Consulte a documentação completa [aqui](https://hemelo.github.io/global-solutions-2-2024/).
 
